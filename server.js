@@ -1,34 +1,30 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const config = require('./config');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const fs = require('fs');
 const app = express();
 const port = 3001;
 
-//Path to ssl certificate
-const sslCertPath = '/home/ansuman/.ssh/X509-cert-2381793436636801278.pem';
-
-// Connection URL
-const connection_url = 'mongodb+srv://cluster0.cpyxhzh.mongodb.net/?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority';
-
-// SSL options
-const sslOptions = {
-    ssl: true,
-    tlsCertificateKeyFile: sslCertPath,
-    serverApi: ServerApiVersion.v1,
-  };
-
 //Middlewares
+app.use((req,res,next)=>{
+    res.setHeader('Content-Security-Policy', 'default-src https:');
+    next();
+});
 app.use(express.json());
 app.use(cors());
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
 
 // mongoose.set()
 
-mongoose.connect(connection_url,{
+mongoose.connect(config.connection_url,{
     // useNewUrlParser: true,
     // useUnifiedTopology: true,
-    ...sslOptions,
+    ...config.sslOptions,
 }).then(() => {
     console.log('Connected to MongoDB');
     // Start the server after successful connection
@@ -39,10 +35,14 @@ mongoose.connect(connection_url,{
 
 //Api
 app.get("/",(req,res)=>{
-    res.status(200).send("Hello world")
+    res.status(200).send("Hello world");
+    // console.log('SSL_CERT_PATH:', process.env.SSL_CERT_PATH);
+    // console.log('path:',config.tlsCertificateKeyFile)
 });
 
-app.post("/product/add",(req,res)=>{
+//add product
+app.post("/products/add",(req,res)=>{
+    const productDetail = req.body;
     console.log("Product detail written");
 });
 
