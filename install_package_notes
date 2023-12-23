@@ -1,0 +1,8 @@
+// npm init
+// npm i express cors
+// npm i -g nodemon
+//npm i mongodb
+//npm i mongoose
+
+//mongodb connection notes for the ssl certificate and other connection
+// https://mongoosejs.com/docs/tutorials/ssl.html
