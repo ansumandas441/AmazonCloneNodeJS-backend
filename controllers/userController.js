@@ -25,11 +25,13 @@ const handleUserRegistration = async ( req, res) => {
     }
 }
 
-const handleLogin = async (req,res)=>{
+const handleUserLogin = async (req,res)=>{
     try{
         const {email, password} = req.body;
-        const user = User.findOne({email});
-        if(!user || await bcrypt.compare(password, user.password)) {
+        const user = await User.findOne({email});
+        console.log({email});
+        console.log({user});
+        if(!user || !(await bcrypt.compare(password, user.password))) {
             return res.status(400).json({message: "Invalid Email or Password"})
         }
         // Successful login
@@ -42,5 +44,5 @@ const handleLogin = async (req,res)=>{
 
 module.exports = {
     handleUserRegistration,
-    handleLogin,
+    handleUserLogin,
 };
