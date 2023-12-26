@@ -2,12 +2,16 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./config');
-const { MongoClient, ServerApiVersion } = require('mongodb');
 const fs = require('fs');
+const path = require('path');
 const app = express();
-const port = 3001;
+const {connectMongoDb} = require('./connections');
+const userRoutes = require('./routes/userRouter'); 
+const staticRoutes = require('./routes/staticRouter');
 
 //Middlewares
+app.set("view engine", "ejs");
+app.set("views", path.resolve('views'));
 app.use((req,res,next)=>{
     res.setHeader('Content-Security-Policy', 'default-src https:');
     next();
@@ -19,25 +23,13 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something went wrong!');
 });
 
-// mongoose.set()
+//connect to mongoDb
+connectMongoDb();
 
-mongoose.connect(config.connection_url,{
-    // useNewUrlParser: true,
-    // useUnifiedTopology: true,
-    ...config.sslOptions,
-}).then(() => {
-    console.log('Connected to MongoDB');
-    // Start the server after successful connection
-})
-.catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-});
-
-//Api
+//Apis 
+//test
 app.get("/",(req,res)=>{
     res.status(200).send("Hello world");
-    // console.log('SSL_CERT_PATH:', process.env.SSL_CERT_PATH);
-    // console.log('path:',config.tlsCertificateKeyFile)
 });
 
 //add product
@@ -46,7 +38,11 @@ app.post("/products/add",(req,res)=>{
     console.log("Product detail written");
 });
 
-app.listen(port, ()=>console.log("listening to the port ",port));
+// Routes
+app.use('/user', userRoutes);
+app.use('/', staticRoutes);
+
+app.listen(config.port, ()=>console.log("listening to the port ",config.port));
 
 
 
