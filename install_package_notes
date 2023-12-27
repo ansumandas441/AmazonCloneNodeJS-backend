@@ -6,3 +6,7 @@
 
 //mongodb connection notes for the ssl certificate and other connection
 // https://mongoosejs.com/docs/tutorials/ssl.html
+
+//npm i jsonwebtokens
+//npm i uuid
+//npm i bcrypt
