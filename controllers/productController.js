@@ -12,13 +12,13 @@ const addProduct = async (req, res) => {
 
     } catch (error){
         console.error('Error adding product', error);
-        res.status(500).json({"Internal server error"});
+        res.status(500).json({ error: 'Internal server error'});
     }
 };
 
-const getProductByName = (req, res)=>{
+const getProductByName = async (req, res)=>{
     const productName = parseString(req.params.name);
-    const product = await Product.findOne({name: productName})
+    const product = await Product.findOne({name: productName});
 
     if (product) {
       res.json(product);

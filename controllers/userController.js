@@ -1,6 +1,6 @@
 const {v4: uuidv4} = require('uuid');
 const User = require('../models/userModel');
-const {setSessionId, getSessionId} = require('../service/auth');
+const {setSession, getSession, isSessionIdValid, deleteSession} = require('../service/auth');
 const bcrypt = require('bcrypt');
 
 const handleUserRegistration = async ( req, res) => {
@@ -21,8 +21,8 @@ const handleUserRegistration = async ( req, res) => {
         });
         // Successful login
         const sessionId = uuidv4();
-        setSessionId(sessionId, user);
-        res.cookie("uuid", sessionId);
+        setSession(sessionId, user);
+        res.cookie("uid", sessionId);
         return res.status(201).json({message: 'User Registered Successfully ', username});
         // return res.render("signup");
     } catch(error){
@@ -33,6 +33,11 @@ const handleUserRegistration = async ( req, res) => {
 
 const handleUserLogin = async (req,res)=>{
     try{
+        const existingSessionId = req.cookies.uid;
+        console.log(existingSessionId);
+        if (existingSessionId || isSessionIdValid(existingSessionId)) {
+            return res.status(201).json({message: "User Already Loggedin."})
+        }
         const {email, password} = req.body;
         const user = await User.findOne({email});
         console.log({email});
@@ -43,7 +48,7 @@ const handleUserLogin = async (req,res)=>{
         }
         // Successful login
         const sessionId = uuidv4();
-        setSessionId(sessionId, user);
+        setSession(sessionId, user);
         res.cookie("uid", sessionId);
         return res.status(200).json({ message: 'Login successful.', username: user.username });
     } catch (error) {
@@ -54,9 +59,15 @@ const handleUserLogin = async (req,res)=>{
 
 const handleUserLogout = async (req,res)=>{
     try{
-        req.cookie.uuid
-    } catch {
-
+        const sessionId = req.cookies.uid;
+        if (!sessionId && !isSessionIdValid(sessionId)) {
+            return res.status(300).json({message: 'Not loggedin.'})
+        }
+        deleteSession(sessionId);
+        res.clearCookie('uid');
+        return res.status(200).json({ message: 'Logout successful.'});
+    } catch (error) {
+        console.error(`Logout Error: ${error}`);
     }
 }
 
@@ -65,4 +76,5 @@ const handleUserLogout = async (req,res)=>{
 module.exports = {
     handleUserRegistration,
     handleUserLogin,
+    handleUserLogout,
 };

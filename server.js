@@ -3,7 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const config = require('./config');
 const {connectMongoDb} = require('./connections');
-const userRoutes = require('./routes/userRouter'); 
+const cookieParser = require('cookie-parser');
+const {restrictToLoggedinUsers} = require('./middlewares/authMiddleWares');
+const authRoutes = require('./routes/authRouter'); 
 const staticRoutes = require('./routes/staticRouter');
 
 const app = express();
@@ -20,8 +22,9 @@ app.use((req,res,next)=>{
 });
 
 // JSON and CORS middlewares
-app.use(express.json());
+app.use(express.json());  
 app.use(cors());
+app.use(cookieParser());
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -45,7 +48,8 @@ app.post("/products/add",(req,res)=>{
 });
 
 // Routes
-app.use('/api/auth', userRoutes);
+app.use('/auth/api', authRoutes);
+app.use('/user/api', restrictToLoggedinUsers, authRoutes);
 app.use('/', staticRoutes); 
 
 app.listen(config.port, ()=>console.log("listening to the port ",config.port));

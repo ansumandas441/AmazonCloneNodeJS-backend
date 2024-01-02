@@ -1,14 +1,26 @@
 const authSessionToUserMap = new Map();
   
-const setSessionId = (sessionId, user) => {
+const setSession = (sessionId, user) => {
     authSessionToUserMap.set(sessionId, user);
 };
 
-const getSessionId = (sessionId) => {
-    authSessionToUserMap.get(sessionId);
+const getSession = (sessionId) => {
+    return authSessionToUserMap.get(sessionId);
+};
+
+const deleteSession = (sessionId) => {
+    if (authSessionToUserMap.has(sessionId)) {
+        authSessionToUserMap.delete(sessionId);
+    }
+};
+
+const isSessionIdValid = (sessionId) => {
+    return authSessionToUserMap.has(sessionId);
 };
 
 module.exports = {
-    setSessionId,
-    getSessionId,
+    setSession,
+    getSession,
+    deleteSession,
+    isSessionIdValid,
 };
