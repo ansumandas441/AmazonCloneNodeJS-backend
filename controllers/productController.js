@@ -10,7 +10,7 @@ const productController = {
       .limit(limit);
 
       if (!products) {
-        return res.status(300).json({message:"No products found"});
+        return res.status(404).json({message:"No products found"});
       }
       const transformedProduct = products.map(product => {
         return {
@@ -21,7 +21,7 @@ const productController = {
           tags:product.tags,
         };
       });
-      res.json(transformedProduct);
+      res.status(200).json(transformedProduct);
     } catch (error) {
       console.log('Fetch Error All products: ', error);
       res.status(500).json({error: 'Internal server error'});
@@ -36,7 +36,7 @@ const productController = {
           console.log("name and price", name, price);
           const existingProduct = await Product.findOne({name:name, price:price});
           if(existingProduct) {
-            return res.status(300).json({message:"Product already present"});
+            return res.status(409).json({message:"Product already present"});
           }
           const newProduct = new Product({name, price, description, tag});
           //save product to a new database
@@ -55,7 +55,7 @@ const productController = {
       const productId = req.params.id;
       const product = await Product.findOne({_id:productId});
       if (!product) {
-        return res.status(300).json({error:"No Products found by this id"});
+        return res.status(404).json({error:"No Products found by this id"});
       }
       res.status(200).json(product);
     } catch (error) {
@@ -81,6 +81,9 @@ const productController = {
     try {
       const productId = req.params.id;
       const {name, price, description, tags} = req.body;
+      if(!name || !price) {
+        return res.status(400).json({error:"Name and price are required fields"});
+      }
       const updatedProduct = await Product.findByIdAndUpdate(
         productId,
         { name, price, description, tags},
@@ -102,7 +105,7 @@ const productController = {
   deleteProduct: async (req, res)=> {
     try {
       const productId = req.params.id;
-      const deletedProduct = Product.findByIdAndDelete(
+      const deletedProduct = await Product.findByIdAndDelete(
         productId
       );
       if (!deletedProduct) {
