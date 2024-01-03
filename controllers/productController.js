@@ -3,7 +3,12 @@ const Product = require("../models/productModel");
 const productController = {
   getAllProducts: async (req,res)=> {
     try {
-      const products = await Product.find();
+      const {page = 1, limit = 10, sortField = 'price', sortOrder = 'asc'} = req.query;
+      const products = await Product.find()
+      .sort({[sortField]: sortOrder})
+      .skip((page-1)*limit)
+      .limit(limit);
+
       if (!products) {
         return res.status(300).json({message:"No products found"});
       }
@@ -11,6 +16,7 @@ const productController = {
         return {
           _id:product._id,
           name:product.name,
+          price:product.price,
           description:product.description,
           tags:product.tags,
         };
