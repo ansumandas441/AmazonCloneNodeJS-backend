@@ -24,10 +24,12 @@ const productController = {
   addProduct: async (req, res) => {
       try {
           const {name, price, description, tag} = req.body;
+          if(!name || !price) {
+            return res.status(400).json({error:"Name and price are required fields"});
+          }
           console.log("name and price", name, price);
-          const existingProduct = await Product.find({name:name, price:price});
-          console.log(existingProduct.length);
-          if(existingProduct.length > 0) {
+          const existingProduct = await Product.findOne({name:name, price:price});
+          if(existingProduct) {
             return res.status(300).json({message:"Product already present"});
           }
           const newProduct = new Product({name, price, description, tag});
@@ -45,7 +47,7 @@ const productController = {
   getProductById: async (req,res)=> {
     try {
       const productId = req.params.id;
-      const product = await Product.findOne({productId});
+      const product = await Product.findOne({_id:productId});
       if (!product) {
         return res.status(300).json({error:"No Products found by this id"});
       }
@@ -60,7 +62,7 @@ const productController = {
       const productName = req.params.name;
       const products = await Product.find({name: productName})
       if (products.length > 0) {
-        res.status(200).json(product);
+        res.status(200).json(products);
       } else {
         res.status(404).json({ error: 'Product not found' });
       }
