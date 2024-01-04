@@ -7,7 +7,12 @@
 //mongodb connection notes for the ssl certificate and other connection
 // https://mongoosejs.com/docs/tutorials/ssl.html
 
+//for authentication
 //npm i jsonwebtokens
 //npm i uuid
 //npm i bcrypt
 //npm i cookie-parser
+
+//for payment
+//npm i stripe
+//https://dashboard.stripe.com/test/apikeys

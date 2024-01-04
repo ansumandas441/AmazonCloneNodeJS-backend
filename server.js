@@ -8,6 +8,7 @@ const {restrictToLoggedinUsers} = require('./middlewares/authMiddleWares');
 const authRoutes = require('./routes/authRouter'); 
 const userRoutes = require('./routes/userRouter'); 
 const productRoutes = require('./routes/productRouter');
+const paymentRoutes = require('./routes/paymentRouter');
 const staticRoutes = require('./routes/staticRouter');
 
 const app = express();
@@ -53,6 +54,7 @@ app.post("/products/add",(req,res)=>{
 app.use('/auth/api', authRoutes);
 app.use('/user/api', restrictToLoggedinUsers, userRoutes);
 app.use('/product/api', productRoutes);
+app.use('/payment/api', paymentRoutes);
 app.use('/', staticRoutes); 
 
 app.listen(config.port, ()=>console.log("listening to the port ",config.port));
