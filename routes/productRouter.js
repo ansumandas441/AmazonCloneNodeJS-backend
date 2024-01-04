@@ -19,6 +19,10 @@ router.get('/getByName/:name', productController.getProductByName);
 
 //Route for getting all the products
 router.get('/getAll', productController.getAllProducts);
+
+//ROute for searching the product in the database
+router.get('/search', productController.searchProduct);
+
 // Add more routes as needed
 
 module.exports = router;
