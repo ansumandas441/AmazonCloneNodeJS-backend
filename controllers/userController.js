@@ -1,6 +1,6 @@
 const {v4: uuidv4} = require('uuid');
 const User = require('../models/userModel');
-const {setSession, getSession, isSessionIdValid, deleteSession} = require('../service/auth');
+const {setSession, isSessionIdValid, deleteSession} = require('../service/auth');
 const bcrypt = require('bcrypt');
 
 const handleUserRegistration = async ( req, res) => {
