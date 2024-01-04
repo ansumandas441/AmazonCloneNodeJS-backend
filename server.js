@@ -6,7 +6,6 @@ const {connectMongoDb} = require('./connections');
 const cookieParser = require('cookie-parser');
 const {restrictToLoggedinUsers} = require('./middlewares/authMiddleWares');
 const authRoutes = require('./routes/authRouter'); 
-const userRoutes = require('./routes/userRouter'); 
 const productRoutes = require('./routes/productRouter');
 const paymentRoutes = require('./routes/paymentRouter');
 const staticRoutes = require('./routes/staticRouter');
@@ -52,7 +51,7 @@ app.post("/products/add",(req,res)=>{
 
 // Routes
 app.use('/auth/api', authRoutes);
-app.use('/user/api', restrictToLoggedinUsers, userRoutes);
+app.use('/user/api', restrictToLoggedinUsers, authRoutes);
 app.use('/product/api', productRoutes);
 app.use('/payment/api', paymentRoutes);
 app.use('/', staticRoutes); 
