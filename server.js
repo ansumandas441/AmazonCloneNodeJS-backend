@@ -5,6 +5,7 @@ const config = require('./config');
 const {connectMongoDb} = require('./connections');
 const userRoutes = require('./routes/userRouter'); 
 const productRoutes = require('./routes/productRouter');
+const paymentRoutes = require('./routes/paymentRouter');
 const staticRoutes = require('./routes/staticRouter');
 
 const app = express();
@@ -48,6 +49,7 @@ app.post("/products/add",(req,res)=>{
 // Routes
 app.use('/api/auth', userRoutes);
 app.use('/product/api', productRoutes);
+app.use('/payment/api', paymentRoutes);
 app.use('/', staticRoutes); 
 
 app.listen(config.port, ()=>console.log("listening to the port ",config.port));
