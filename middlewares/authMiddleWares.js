@@ -1,15 +1,32 @@
 const {getSession} = require('../service/auth');
 
-const restrictToLoggedinUsers = (req, res, next)=>{
-    console.log(req);
-    const sessionId = req.cookie?.uid;
-    if (!sessionId) return res.status(400).json({error:"Please Log In"});
-    const user = getSession(sessionId);
-    if (!user) return res.status(404).json({error:"No user for this session found, please login"})
-    req.user = user;
-    next();
-};
+const checkForAuthentication = (req,res,next)=>{
+    try
+    {
+        const token = req.cookies?.token;
+        req.user = null;
+        console.log("Token: ",token);
+        if (!token) return next();
+        const user = getSession(token);
+        console.log("User: ",user);
+        console.log("User: ",req.user);
+        req.user = user;
+        return next();  
+    } catch(error) {
+        return res.status(500).json({error: "Internal server error"})
+    }
+}
+
+
+const restrictTo = (roles=[]) => {
+    return (req,res,next)=>{
+        if(!req.user) return res.status(400).json({error:"No user for this session found, Please Log In"});
+        if(!roles.includes(req.user.role)) return res.status(401).json({error:"Unauthorized"});
+        return next();
+    }
+}
 
 module.exports = {
-    restrictToLoggedinUsers,
+    checkForAuthentication,
+    restrictTo
 }

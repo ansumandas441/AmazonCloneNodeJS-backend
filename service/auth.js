@@ -1,21 +1,39 @@
-const authSessionToUserMap = new Map();
-  
-const setSession = (sessionId, user) => {
-    authSessionToUserMap.set(sessionId, user);
-};
+const jwt = require('jsonwebtoken');
+const secret = "NewSecret*()$";
 
-const getSession = (sessionId) => {
-    return authSessionToUserMap.get(sessionId);
-};
-
-const deleteSession = (sessionId) => {
-    if (authSessionToUserMap.has(sessionId)) {
-        authSessionToUserMap.delete(sessionId);
+const setSession = (user) => {
+    try {
+        return jwt.sign({
+            _id:user._id,
+            email:user.email,
+            role:user.role
+        }, 
+        secret,
+        {});
+    } catch (error) {
+        console.log("Error getting session", error);
+        return res.status(500).json({error:"Internal server error"});
     }
 };
 
+const getSession = (token) => {
+    if (!token) {
+        return res.status(400).json({error:"Invalid token"});
+    }
+    try {
+        return jwt.verify(token, secret);
+    } catch(error) { 
+        console.log("Error getting session", error);
+        return res.status(500).json({error:"Internal server error"});
+    }
+};
+
+const deleteSession = (sessionId) => {
+    console.log("deleteSession");
+};
+
 const isSessionIdValid = (sessionId) => {
-    return authSessionToUserMap.has(sessionId);
+    console.log("validSession");
 };
 
 module.exports = {
