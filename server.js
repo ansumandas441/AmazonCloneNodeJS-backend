@@ -3,8 +3,11 @@ const cors = require('cors');
 const path = require('path');
 const config = require('./config');
 const {connectMongoDb} = require('./connections');
-const userRoutes = require('./routes/userRouter'); 
+const cookieParser = require('cookie-parser');
+const {checkForAuthentication, restrictTo} = require('./middlewares/authMiddleWares');
+const authRoutes = require('./routes/authRouter'); 
 const productRoutes = require('./routes/productRouter');
+const paymentRoutes = require('./routes/paymentRouter');
 const staticRoutes = require('./routes/staticRouter');
 
 const app = express();
@@ -21,12 +24,14 @@ app.use((req,res,next)=>{
 });
 
 // JSON and CORS middlewares
-app.use(express.json());
+app.use(express.json());  
 app.use(cors());
+app.use(cookieParser());
+app.use(checkForAuthentication);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    // console.error(err.stack);
     res.status(500).send('Something went wrong!');
 });
 
@@ -46,12 +51,12 @@ app.post("/products/add",(req,res)=>{
 });
 
 // Routes
-app.use('/api/auth', userRoutes);
-app.use('/product/api', productRoutes);
+app.use('/auth/api', authRoutes);
+app.use('/product/api', restrictTo(["NORMAL"]), productRoutes);
+app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
+// app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
+// app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
 app.use('/', staticRoutes); 
 
 app.listen(config.port, ()=>console.log("listening to the port ",config.port));
-
-
-
 
