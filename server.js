@@ -54,6 +54,7 @@ app.post("/products/add",(req,res)=>{
 app.use('/auth/api', authRoutes);
 app.use('/product/api', restrictTo(["NORMAL"]), productRoutes);
 app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
+app.use('/cart/api', restrictTo(["NORMAL"]), paymentRoutes);
 // app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
 // app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
 app.use('/', staticRoutes); 

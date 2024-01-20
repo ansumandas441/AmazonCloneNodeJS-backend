@@ -40,7 +40,7 @@ const productController = {
           }
           const newProduct = new Product({name, price, description, tag});
           //save product to a new database
-          const savedProduct = await newProduct.save(newProduct);
+          const savedProduct = await newProduct.save();
           if (!savedProduct) {
             return res.status(404).json({error:"Could not add product"});
           }

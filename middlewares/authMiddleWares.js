@@ -9,7 +9,6 @@ const checkForAuthentication = (req,res,next)=>{
         if (!token) return next();
         const user = getSession(token);
         console.log("User: ",user);
-        console.log("User: ",req.user);
         req.user = user;
         return next();  
     } catch(error) {
