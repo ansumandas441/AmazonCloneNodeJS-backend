@@ -31,13 +31,7 @@ const getSession = (token) => {
     }
 };
 
-const deleteSession = (req,res) => {
-    console.log("deleteSession");
-    res.clearCookie('token');
-};
-
 module.exports = {
     setSession,
     getSession,
-    deleteSession,
 };

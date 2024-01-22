@@ -24,7 +24,7 @@ const productController = {
       res.status(200).json(transformedProduct);
     } catch (error) {
       console.log('Fetch Error All products: ', error);
-      res.status(500).json({error: 'Internal server error'});
+      res.status(500).json({error: 'Internal server error',error});
     }
   },
   addProduct: async (req, res) => {
@@ -47,7 +47,7 @@ const productController = {
           res.status(201).json(savedProduct);
       } catch (error){
           console.error('Error adding product', error);
-          res.status(500).json({error: "Internal server error"});
+          res.status(500).json({error: "Internal server error",error});
       }
   },
   getProductById: async (req,res)=> {
@@ -60,7 +60,7 @@ const productController = {
       res.status(200).json(product);
     } catch (error) {
       console.log('Error finding the product by id');
-      res.status(500).json({error:"Internal server error"});
+      res.status(500).json({error:"Internal server error",error});
     }
   },
   getProductByName: async (req, res)=>{
@@ -74,7 +74,7 @@ const productController = {
       }
     } catch(error) {
       console.log("Error finding the product by it's name", error);
-      res.status(501).json({error: "Internal server error"});
+      res.status(501).json({error: "Internal server error",error});
     }
   },
   editPrice: async (req,res)=> {
@@ -93,13 +93,11 @@ const productController = {
       if (!updatedProduct) {
         return res.status(404).json({ error: 'Product not found' });
       }
-
       console.log({message: 'Product details edited successfully'});
       res.status(200).json({updatedProduct});
-
     } catch(error) {
       console.log('Error editing product', error);
-      res.status(500).json({error: 'Internal server error'});
+      res.status(500).json({error: 'Internal server error',error});
     }
   },
   deleteProduct: async (req, res)=> {
@@ -114,7 +112,7 @@ const productController = {
       res.status(200).json({message: 'Product deleted successfully'});
     } catch (error) {
       console.log('Error deleting the product', error);
-      res.status(500).json({error: 'Internal server error'});
+      res.status(500).json({error: 'Internal server error',error});
     }
   },
   searchProduct: async (req,res)=> {
@@ -143,7 +141,7 @@ const productController = {
 
     } catch (error) {
       console.log('Error deleting the product', error);
-      res.status(500).json({error: 'Internal server error'});
+      res.status(500).json({error: 'Internal server error',error});
     }
   }
 }

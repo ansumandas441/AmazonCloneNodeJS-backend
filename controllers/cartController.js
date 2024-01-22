@@ -13,7 +13,7 @@ const addOrUpdateToCart = async (req,res)=>{
         res.status(200).json({message: "Success"});
     } catch (error) {
         console.log("Error processing the add/update method", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 
@@ -29,7 +29,7 @@ const deleteFromCart = async (req,res) => {
         res.status(200).json({message: "Success"});
     } catch (error) {
         console.log("Error processing the deleting items from the cart", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 
@@ -42,7 +42,7 @@ const deleteCart = async (req,res) => {
         res.status(200).json({message: "Success"});
     } catch (error) {
         console.log("Error processing the deleting the cart", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 
@@ -58,7 +58,7 @@ const viewCart = async (req,res) => {
         res.status(200).json({cart: cart, totalPrice: totalPrice});
     } catch (error) {
         console.log("Error processing the deleting the cart", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 
@@ -73,7 +73,7 @@ const calculatePrice = async (req,res) => {
         res.status(200).json({TotalPrice: totalPrice});
     } catch (error) {
         console.log("Error processing the deleting the cart", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 
@@ -96,7 +96,7 @@ const checkoutCart = async (req,res) => {
 
     } catch (error) {
         console.log("Error processing the deleting the cart", error);
-        res.status(500).json({error: "Internal server error"});
+        res.status(500).json({error: "Internal server error", error});
     }
 }
 

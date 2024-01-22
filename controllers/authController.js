@@ -1,5 +1,5 @@
 const User = require('../models/userModel');
-const {setSession, deleteSession, getSession} = require('../service/auth');
+const {setSession, getSession} = require('../service/auth');
 const bcrypt = require('bcrypt');
 const config = require('../config');
 
@@ -27,11 +27,11 @@ const handleUserRegistration = async ( req, res) => {
         res.cookie("token", token, {
             ...config.loginCookieConfig
         });
-        return res.status(201).json({message: 'User Registered Successfully ', username});
+        res.status(201).json({message: 'User Registered Successfully ', username});
         // return res.render("signup");
     } catch(error){
         console.error(`Registration error: ${error}`);
-        res.status(500).json({message: 'Internal Server Error'});
+        res.status(500).json({message: 'Internal Server Error',error});
     }
 }
 
@@ -54,21 +54,18 @@ const handleUserLogin = async (req,res)=>{
         }
         // Successful login
         const token = setSession(user);
-        console.log("done1");
         if(!token) {
             const error =  new Error("Token not found");
             error.code = 401;
             throw error;
         }
-        console.log("done2");
         res.cookie("token", token, {
             ...config.loginCookieConfig
         });
-        console.log("done3");
         res.status(200).json({ message: 'Login successful.', username: user.username });
     } catch (error) {
         console.error(`Login error: ${error}`);
-        res.status(500).json({message: 'Internal Server Error'});
+        res.status(500).json({message: 'Internal Server Error', error});
     }
 }
 
@@ -78,11 +75,8 @@ const handleUserLogout = async (req,res)=>{
         if (!token) {
             return res.status(300).json({message: 'Not loggedin.'})
         }
-        const existingUser = getSession(token);
-        if(await User.findOne({user: existingUser.email})){
-            deleteSession(token);
-        }
-        return res.status(200).json({ message: 'Logout successful.'});
+        res.clearCookie('token');
+        res.status(200).json({ message: 'Logout successful.'});
     } catch (error) {
         console.error(`Logout Error: ${error}`);
     }
