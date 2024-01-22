@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 const secret = "NewSecret*()$";
 
 const setSession = (user) => {
+    if(!user) {
+        return null;
+    }
     try {
         return jwt.sign({
             _id:user._id,
@@ -12,33 +15,29 @@ const setSession = (user) => {
         {});
     } catch (error) {
         console.log("Error getting session", error);
-        return res.status(500).json({error:"Internal server error"});
+        return null;
     }
 };
 
 const getSession = (token) => {
     if (!token) {
-        return res.status(400).json({error:"Invalid token"});
+        return null;
     }
     try {
         return jwt.verify(token, secret);
     } catch(error) { 
         console.log("Error getting session", error);
-        return res.status(500).json({error:"Internal server error"});
+        return null;
     }
 };
 
-const deleteSession = (sessionId) => {
+const deleteSession = (req,res) => {
     console.log("deleteSession");
-};
-
-const isSessionIdValid = (sessionId) => {
-    console.log("validSession");
+    res.clearCookie('token');
 };
 
 module.exports = {
     setSession,
     getSession,
     deleteSession,
-    isSessionIdValid,
 };

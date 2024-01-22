@@ -88,7 +88,7 @@ const calculatePrice = async (req,res) => {
 //     }
 // }
 
-const checkOutCart = async (req,res) => {
+const checkoutCart = async (req,res) => {
     try {
         const email = req.user.email;
         if(!email) return res.status(401).json({error: "No email id provied"});
@@ -98,4 +98,13 @@ const checkOutCart = async (req,res) => {
         console.log("Error processing the deleting the cart", error);
         res.status(500).json({error: "Internal server error"});
     }
+}
+
+module.exports = {
+    addOrUpdateToCart,
+    deleteFromCart,
+    deleteCart,
+    viewCart,
+    calculatePrice,
+    checkoutCart,
 }
