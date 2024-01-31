@@ -28,7 +28,7 @@ const paymentController = {
 
         } catch (error) {
             console.log("Error processing payment gateway",error);
-            res.status(500).json({error:"Internal server error"});
+            res.status(500).json({error:"Internal server error",error});
         }
     },
     handlePaymentConfirmation: async (req,res)=> {
@@ -41,12 +41,10 @@ const paymentController = {
             if (!paymentIntent) {
                 return res.status(400).json({error:"Payment is failed"});
             }
-
             res.status(200).json({ message: 'Payment confirmed successfully' });
-
         } catch (error) {
             console.log("Error processing payment confirmation",error);
-            res.status(500).json({error:"Internal server error"});
+            res.status(500).json({error:"Internal server error",error});
         }
     }
 }

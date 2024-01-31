@@ -11,6 +11,9 @@
 //npm i jsonwebtokens
 //npm i uuid
 //npm i bcrypt
+//installing ELK stack
+//npm i @elastic/elasticsearch
+//
 //npm i cookie-parser
 
 //for payment
