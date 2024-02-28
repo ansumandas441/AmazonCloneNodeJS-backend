@@ -9,3 +9,7 @@ const couponSchema = new mongoose.Schema({
     usedCount: {type: String, default: 0},
     productRestrinctions: {type: [String], defaults: []},
 });
+
+const Coupon = mongoose.model('Coupon',couponSchema);
+
+module.exports = Coupon;

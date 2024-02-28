@@ -53,7 +53,7 @@ const productController = {
   getProductById: async (req,res)=> {
     try {
       const productId = req.params.id;
-      const product = await Product.findOne({_id:productId});
+      const product = await Product.findOne({productId});
       if (!product) {
         return res.status(404).json({error:"No Products found by this id"});
       }

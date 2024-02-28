@@ -12,7 +12,7 @@ router.post('/edit/:id', productController.editPrice);
 router.post('/delete/:id', productController.deleteProduct);
 
 //Route for getting all products
-router.get('/getById/:id', productController.getProductById);
+router.get('/getById', productController.getProductById);
 
 // Route for getting product details
 router.get('/getByName/:name', productController.getProductByName);
