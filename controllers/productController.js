@@ -52,11 +52,12 @@ const productController = {
   },
   getProductById: async (req,res)=> {
     try {
-      const productId = req.params.id;
-      const product = await Product.findOne({productId});
+      const productId = req.query.id;
+      const product = await Product.findOne({_id:productId});
       if (!product) {
         return res.status(404).json({error:"No Products found by this id"});
       }
+      console.log("Response = ", product)
       res.status(200).json(product);
     } catch (error) {
       console.log('Error finding the product by id');
@@ -65,7 +66,7 @@ const productController = {
   },
   getProductByName: async (req, res)=>{
     try {
-      const productName = req.params.name;
+      const productName = req.query.name;
       const products = await Product.find({name: productName})
       if (products.length > 0) {
         res.status(200).json(products);

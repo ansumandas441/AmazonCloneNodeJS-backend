@@ -15,7 +15,7 @@ router.post('/delete/:id', productController.deleteProduct);
 router.get('/getById', productController.getProductById);
 
 // Route for getting product details
-router.get('/getByName/:name', productController.getProductByName);
+router.get('/getByName', productController.getProductByName);
 
 //Route for getting all the products
 router.get('/getAll', productController.getAllProducts);
