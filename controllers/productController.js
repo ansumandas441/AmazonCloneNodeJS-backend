@@ -80,7 +80,7 @@ const productController = {
   },
   editPrice: async (req,res)=> {
     try {
-      const productId = req.params.id;
+      const productId = req.query.id;
       const {name, price, description, tags} = req.body;
       if(!name || !price) {
         return res.status(400).json({error:"Name and price are required fields"});
@@ -103,7 +103,8 @@ const productController = {
   },
   deleteProduct: async (req, res)=> {
     try {
-      const productId = req.params.id;
+      const productId = req.query.id;
+      console.log("productId", productId);
       const deletedProduct = await Product.findByIdAndDelete(
         productId
       );

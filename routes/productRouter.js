@@ -6,10 +6,10 @@ const productController = require('../controllers/productController');
 router.post('/add', productController.addProduct);
 
 //Route for editing a product
-router.post('/edit/:id', productController.editPrice);
+router.put('/edit', productController.editPrice);
 
 //Route for deleting a product
-router.post('/delete/:id', productController.deleteProduct);
+router.delete('/delete', productController.deleteProduct);
 
 //Route for getting all products
 router.get('/getById', productController.getProductById);
