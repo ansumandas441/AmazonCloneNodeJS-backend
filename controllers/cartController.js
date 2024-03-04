@@ -1,10 +1,97 @@
 const Cart = require('../models/cartModel');
 const Product = require('../models/productModel');
+const {getSession} = require('../service/auth');
 
 const productController = {
-    addOrUpdateToCart: async (req, res) => {
+    addToCart: async (req, res) => {
         try {
-            const email = req.user.email;
+            const email = getSession(req.cookies.token).email;
+            const productId = req.body.productId;
+            const quantity = Number.parseInt(req.body.quantity);
+            if (!email) return res.status(401).json({
+                error: "No email id provied"
+            });
+            if (quantity < 0) {
+                // If quantity or price is negative(database error)
+                return res.status(400).json({
+                    code: 400,
+                    message: "Invalid request"
+                });
+            }
+            const existingCart = await Cart.findOne({
+                email
+            });
+
+            const product = await Product.find({
+                _id: productId
+            });
+
+            if (!product || product.length === 0) {
+                res.status(400).json({
+                    message: "Product not found"
+                });
+            }
+
+            const productPrice = product[0].price;
+            const totalPrice = parseInt(productPrice * quantity);
+
+            const cartData = {
+                email: email,
+                products: [{
+                    productId: productId,
+                    name: product[0].name,
+                    price: productPrice,
+                    total: totalPrice,
+                    quantity: quantity
+                }],
+                subTotalPrice: totalPrice
+            };
+
+            if (existingCart) {
+                let indexFound = existingCart.products.findIndex(p => p.productId == productId);
+                console.log("Index", indexFound);
+                console.log("Cart = ", existingCart);
+                if (indexFound !== -1) {
+                    return res.status(400).json({
+                        code: 400,
+                        message: "Product Already exists. Could not create new cart"
+                    });
+                } else {
+                    existingCart.products.push(cartData.products[0]);
+                    existingCart.subTotalPrice = existingCart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
+                    let data = await existingCart.save();
+                    console.log({
+                        message: "Item added to the cart"
+                    });
+                    return res.status(200).json({
+                        message: "Success",
+                        data: data
+                    });
+                }
+            }
+
+            const cart = new Cart(cartData);
+            let data = await cart.save();
+            console.log({
+                message: "Item added to the cart"
+            });
+            
+            res.status(200).json({
+                message: "Success",
+                data: data
+            });
+
+        } catch (error) {
+            console.log("Error processing the add/update method", error);
+            res.status(500).json({
+                error: "Internal server error",
+                error
+            });
+        }
+    },
+    updateCart: async (req, res) => {
+        try {
+            const email = getSession(req.cookies.token).email;
             const productId = req.body.productId;
             const quantity = Number.parseInt(req.body.quantity);
             if (!email) return res.status(401).json({
@@ -20,9 +107,24 @@ const productController = {
             const cart = await Cart.findOne({
                 email
             });
+
+            if (!cart) {
+                res.status(200).json({
+                    message: "Cart cound not be found",
+                    data: data
+                });
+            }
+
             const product = await Product.find({
                 _id: productId
             });
+
+            if (!product || product.length === 0) {
+                res.status(400).json({
+                    message: "Product not found", productId
+                });
+            }
+            console.log("Product details: ",product);
             const productPrice = product[0].price;
             if (productPrice < 0) {
                 // If quantity or price is negative(database error)
@@ -31,91 +133,36 @@ const productController = {
                     message: "Invalid request"
                 })
             }
-            if (!product) {
-                res.status(400).json({
-                    message: "Product not found"
-                });
-            }
-            if (quantity < 0) {
-                // If quantity or price is negative(database error)
-                return res.status(400).json({
-                    code: 400,
-                    message: "Invalid request"
-                })
-            }
-            if (cart) {
-                // If the cart doesn't exist, create a new one
-                // cart = await Cart.create({ email, products: {} });
-                let indexFound = cart.products.findIndex(p => p.productId == productId);
-                console.log("Index", indexFound)
-                console.log("Cart = ",cart);
 
-                if (indexFound !== -1) {
-                    cart.email = email;
-                    cart.products[indexFound].quantity = quantity;
-                    cart.products[indexFound].name = product[0].name;
-                    cart.products[indexFound].price = productPrice;
-                    cart.products[indexFound].total = quantity * productPrice;
-                    cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
-                } else {
-                    cart.products.push({
-                        productId: productId,
-                        name: product.name,
-                        quantity: quantity,
-                        price: productPrice,
-                        total: parseInt(productPrice * quantity).toFixed(2),
-                    })
-                    cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
-                }
-                let data = await cart.save();
-                res.status(200).json({
-                    type: "success",
-                    mgs: "Process Successful",
-                    data: data
+            // If the cart doesn't exist, create a new one
+            // cart = await Cart.create({ email, products: {} });
+            let indexFound = cart.products.findIndex(p => p.productId == productId);
+            console.log("Index", indexFound);
+            console.log("Cart = ", cart);
+
+            if (indexFound === -1) {
+                return res.status(400).json({
+                    type: "failure",
+                    mgs: "Process Failed, this product does not exist in this cart for editing",
                 })
-            } else {
-                const cartData = {
-                    email: email,
-                    products: [{
-                        productId: productId,
-                        name: product[0].name,
-                        price: productPrice,
-                        total: parseInt(productPrice * quantity),
-                        quantity: quantity
-                    }],
-                    subTotal: parseInt(productPrice * quantity)
-                };
-                cart = new Cart(cartData);
-                //-----------------------------------------------------------------
-                // const nameTest = product[0].name;
-                // const total = parseInt(productPrice*quantity);
-                // console.log("productIdTest = "+typeof(productId)+productId);
-                // console.log("nameTest = "+typeof(nameTest)+nameTest);
-                // console.log("productPriceTest = "+typeof(parseInt(productPrice))+parseInt(productPrice));
-                // console.log("totalTest = "+typeof(total)+total);
-                // console.log("quantityTest = "+typeof(quantity) + quantity);
-                // console.log("Product print",product); 
-                // const products = [{
-                //     productId: productId,
-                //     name: product.name,
-                //     price: productPrice,
-                //     total: parseInt(productPrice * quantity),
-                //     quantity: quantity
-                // }];
-                // const subTotal = parseInt(productPrice * quantity);
-                
-                // const newCart = new Cart({email, products, subTotal});
-                let data = await cart.save();
-                console.log({
-                    message: "Item added to the cart"
-                });
-                res.status(200).json({
-                    message: "Success",
-                    data: data
-                });
             }
+
+            cart.email = email;
+            cart.products[indexFound].quantity = quantity;
+            cart.products[indexFound].name = product[0].name;
+            cart.products[indexFound].price = productPrice;
+            cart.products[indexFound].total = quantity * productPrice;
+            cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
+            
+            let data = await cart.save();
+            res.status(200).json({
+                type: "success",
+                mgs: "Process Successful",
+                data: data
+            });
+
         } catch (error) {
-            console.log("Error processing the add/update method", error);
+            console.log("Error processing the add method", error);
             res.status(500).json({
                 error: "Internal server error",
                 error
@@ -125,17 +172,16 @@ const productController = {
 
     deleteFromCart: async (req, res) => {
         try {
-            const email = req.user.email;
-            const {
-                productId
-            } = req.body.quantity;
+            const email = getSession(req.cookies.token).email;
+            const productId = req.body.productId;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
             const cart = await Cart.findOne({
                 email
             });
-            cart.products = cart.products.filter(product => product.productId != productId)
+            cart.products = cart.products.filter(product => product.productId != productId);
+            cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc,cur)=>acc+cur);
             await cart.save();
             console.log({
                 message: "Product deleted successfully"
@@ -158,8 +204,8 @@ const productController = {
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
-            await Cart.findByIdAndDelete({
-                email
+            await Cart.findOneAndDelete({
+                email: email
             });
             console.log({
                 message: "Cart deleted successfully"
@@ -178,7 +224,7 @@ const productController = {
 
     viewCart: async (req, res) => {
         try {
-            const email = req.user.email;
+            const email = getSession(req.cookies.token).email;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
@@ -188,15 +234,12 @@ const productController = {
             if (!cart) return res.status(400).json({
                 error: "No cart found with this email id"
             });
-            const totalPrice = Array.from(cart.products ?.values()).reduce((total, item) => {
-                return total + item.price * item.quantity;
-            }, 0);
             res.status(200).json({
                 cart: cart,
-                totalPrice: totalPrice
+                totalPrice: cart.totalPrice
             });
         } catch (error) {
-            console.log("Error processing the deleting the cart", error);
+            console.log("Error processing the getting the cart", error);
             res.status(500).json({
                 error: "Internal server error",
                 error
@@ -206,7 +249,7 @@ const productController = {
 
     calculatePrice: async (req, res) => {
         try {
-            const email = req.user.email;
+            const email = getSession(req.cookies.token).email;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
@@ -241,7 +284,7 @@ const productController = {
 
     checkoutCart: async (req, res) => {
         try {
-            const email = req.user.email;
+            const email = getSession(req.cookies.token).email;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
