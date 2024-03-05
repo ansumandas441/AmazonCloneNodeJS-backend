@@ -210,6 +210,11 @@ The AmazonCloneNodeJS-backend is a robust Node.js solution powering an e-commerc
 > $ node app.js
 > ```
 
+> Or:
+> ```console
+> $ nodemon
+> ```
+
 ###  Tests
 
 > Run the test suite using the command below:
