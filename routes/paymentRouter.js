@@ -6,4 +6,3 @@ router.post('/create-payment-intent', paymentController.handlePaymentIntent);
 router.post('/confirm-payment', paymentController.handlePaymentConfirmation);
 
 module.exports = router;
-

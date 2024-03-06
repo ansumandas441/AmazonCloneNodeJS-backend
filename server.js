@@ -2,10 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const config = require('./config');
-const {connectMongoDb} = require('./connections');
+const {
+    connectMongoDb
+} = require('./connections');
 const cookieParser = require('cookie-parser');
-const {checkForAuthentication, restrictTo} = require('./middlewares/authMiddleWares');
-const authRoutes = require('./routes/authRouter'); 
+const {
+    checkForAuthentication,
+    restrictTo
+} = require('./middlewares/authMiddleWares');
+const authRoutes = require('./routes/authRouter');
 const productRoutes = require('./routes/productRouter');
 const paymentRoutes = require('./routes/paymentRouter');
 const cartRoutes = require('./routes/cartRouter');
@@ -19,13 +24,13 @@ app.set("view engine", "ejs");
 app.set("views", path.resolve('views'));
 
 // Content Security Policy middleware
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
     res.setHeader('Content-Security-Policy', 'default-src https:');
     next();
 });
 
 // JSON and CORS middlewares
-app.use(express.json());  
+app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use(checkForAuthentication);
@@ -41,12 +46,12 @@ connectMongoDb();
 
 //Apis 
 //test
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.status(200).send("Hello world");
 });
 
 //add product
-app.post("/products/add",(req,res)=>{
+app.post("/products/add", (req, res) => {
     const productDetail = req.body;
     console.log("Product detail written");
 });
@@ -58,7 +63,6 @@ app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
 app.use('/cart/api', restrictTo(["NORMAL"]), cartRoutes);
 // app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
 // app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
-app.use('/', staticRoutes); 
+app.use('/', staticRoutes);
 
-app.listen(config.port, ()=>console.log("listening to the port ",config.port));
-
+app.listen(config.port, () => console.log("listening to the port ", config.port));
