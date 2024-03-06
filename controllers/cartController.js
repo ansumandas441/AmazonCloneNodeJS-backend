@@ -1,8 +1,15 @@
 const Cart = require('../models/cartModel');
+const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
 const {getSession} = require('../service/auth');
+const EventEmitter = require('events');
+const OrderStates = require('../models/orderStates');
+const setupReceiver = require('../service/orderReceiver');
+const emitter = require('../service/emitter');
 
-const productController = {
+setupReceiver();
+
+const cartController = {
     addToCart: async (req, res) => {
         try {
             const email = getSession(req.cookies.token).email;
@@ -70,8 +77,8 @@ const productController = {
                 }
             }
 
-            const cart = new Cart(cartData);
-            let data = await cart.save();
+            let data = Cart.create(cartData);
+
             console.log({
                 message: "Item added to the cart"
             });
@@ -284,14 +291,46 @@ const productController = {
 
     checkoutCart: async (req, res) => {
         try {
+        
             const email = getSession(req.cookies.token).email;
+            
+            const {address} = req.body;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
             const cart = await Cart.findOne({
                 email
             });
-
+            // Emit an event indicating checkout has occurred
+            const orderState = OrderStates.INITIATED;
+            const eventData = { cart: cart, address: address, orderState: orderState };
+            console.log(`TOKENX 1 ${eventData.cart}`);
+            console.log(`TOKENX 1 ${eventData.address}`);
+            console.log(`TOKENX 1 ${eventData.orderState}`);
+            
+            // emitter.on('checkout', async (receivedEventData)=>{
+            //     try {
+            //         // Call the order service
+            //         console.log(`TOKENX3 ${receivedEventData.cart}`);
+            //         const result = orderController.placeCartOrder(receivedEventData.cart, receivedEventData.address, receivedEventData.status);
+            //         // callback(result);
+            //     } catch (error) {
+            //         console.error('Error placing order:', error);
+            //     }
+            // });
+            emitter.emit('checkout', eventData
+            , (result)=>{
+                if (result) {
+                    console.log('Order initiated successfully:', result);
+                    res.status(200).json({ message: 'Order initiated' });
+                } else {
+                    console.error('Error initiating order:', result.error);
+                    res.status(200).json({ error: `Error initiating order ${result.error}` });
+                }
+            }
+            
+            );
+        
         } catch (error) {
             console.log("Error processing the deleting the cart", error);
             res.status(500).json({
@@ -299,7 +338,7 @@ const productController = {
                 error
             });
         }
-    }
+    },
 }
 
-module.exports = productController
+module.exports = {cartController, emitter};

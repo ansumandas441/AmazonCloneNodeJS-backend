@@ -1,4 +1,5 @@
-const Order = require('../models/cartModel');
+const { Timestamp } = require('mongodb');
+const Order = require('../models/orderModel');
 
 const orderController = {
 
@@ -12,12 +13,27 @@ const orderController = {
         }
     },
 
-    placeCartOrder: (req,res)=>{
+    placeCartOrder: async (cart, address, status)=>{
         try {
-
+            console.log(`TOKENP ${status}`)
+            const productItems = cart.products.map(item=>({
+                    productId:item.productId,
+                    quantity:item.quantity
+                })
+            );
+            const oder = {
+                userId: cart.email,
+                products:productItems,
+                shippingAddress:address,
+                status: status,
+            }
+            const result = await Order.create(oder);
+            console.log(`TOKENMP ${result !== undefined}`);
+            return result !== undefined;
+            
         } catch(error) {
             console.error(`error: ${error}`);
-            res.status(500).json({message: 'INternal Server Error',error});
+            // res.status(500).json({message: 'Internal Server Error',error});
         }
     },
 
