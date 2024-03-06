@@ -9,6 +9,7 @@ function setupReceiver() {
             console.log(`TOKENX address ${receivedEventData.address}`);
             console.log(`TOKENX status ${receivedEventData.orderState}`);
             const result = orderController.placeCartOrder(receivedEventData.cart, receivedEventData.address, receivedEventData.orderState);
+            
             callback(result);
         } catch (error) {
             console.error('Error placing order:', error);
