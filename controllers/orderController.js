@@ -1,6 +1,9 @@
 const {
     Timestamp
 } = require('mongodb');
+const {
+    getSession
+} = require('../service/auth');
 const Order = require('../models/orderModel');
 
 const orderController = {
@@ -39,9 +42,19 @@ const orderController = {
         }
     },
 
-    getOrders: (req, res) => {
+    getOrders: async (req, res) => {
         try {
-
+            const userId = getSession(req.cookies.token).email;
+            const orders = await Order.find({userId: userId});
+            if(!orders){
+                return res.status(401).json({
+                    error: 'No data found'
+                });
+            }
+            res.status(201).json({
+                orders:orders
+            });
+            
         } catch (error) {
             console.error(`error: ${error}`);
             res.status(500).json({
@@ -51,9 +64,21 @@ const orderController = {
         }
     },
 
-    getOrderStatus: (req, res) => {
+    getOrderStatus: async (req, res) => {
         try {
-
+            const userId = getSession(req.cookies.token).email;
+            const orderId = req.body.orderId;
+            const orders = await Order.find({userId: userId});
+            if(orders.some(item=>item._id.toString()===orderId)){
+                return res.status(500).json({
+                    status: "success",
+                    message: 'The order exists',
+                });
+            }
+            res.status(401).json({
+                status: "failure",
+                message: 'The order does not exist',
+            });
         } catch (error) {
             console.error(`error: ${error}`);
             res.status(500).json({
@@ -63,9 +88,22 @@ const orderController = {
         }
     },
 
-    getOrderDetail: (req, res) => {
+    getOrderDetail: async (req, res) => {
         try {
-
+            const userId = getSession(req.cookies.token).email;
+            const orderId = req.body.orderId;
+            const orders = await Order.find({userId: userId});
+            const order = orders.find(item=>item._id.toString()===orderId)
+            if(order){
+                return res.status(500).json({
+                    status: "success",
+                    orderDetails: order,
+                });
+            }
+            res.status(401).json({
+                status: "failure",
+                message: 'The order does not exist',
+            });
         } catch (error) {
             console.error(`error: ${error}`);
             res.status(500).json({
@@ -74,18 +112,6 @@ const orderController = {
             });
         }
     },
-
-    getOrderStatus: (req, res) => {
-        try {
-
-        } catch (error) {
-            console.error(`error: ${error}`);
-            res.status(500).json({
-                message: 'Internal Server Error',
-                error
-            });
-        }
-    }
 }
 
 module.exports = orderController;

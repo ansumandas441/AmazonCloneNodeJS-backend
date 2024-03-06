@@ -15,6 +15,7 @@ const productRoutes = require('./routes/productRouter');
 const paymentRoutes = require('./routes/paymentRouter');
 const cartRoutes = require('./routes/cartRouter');
 const staticRoutes = require('./routes/staticRouter');
+const orderRoutes = require('./routes/orderRouter');
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/auth/api', authRoutes);
 app.use('/product/api', restrictTo(["NORMAL"]), productRoutes);
 app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
 app.use('/cart/api', restrictTo(["NORMAL"]), cartRoutes);
+app.use('/order/api', restrictTo(["NORMAL"]), orderRoutes)
 // app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
 // app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
 app.use('/', staticRoutes);

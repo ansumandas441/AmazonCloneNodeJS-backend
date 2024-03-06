@@ -318,6 +318,7 @@ const cartController = {
                     if (result) {
                         console.log('Order initiated successfully:', result);
                         res.status(200).json({
+                            status: 'success',
                             message: 'Order initiated'
                         });
                     } else {
