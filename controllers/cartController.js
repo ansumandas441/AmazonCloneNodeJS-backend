@@ -1,7 +1,9 @@
 const Cart = require('../models/cartModel');
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
-const {getSession} = require('../service/auth');
+const {
+    getSession
+} = require('../service/auth');
 const EventEmitter = require('events');
 const OrderStates = require('../models/orderStates');
 const setupReceiver = require('../service/orderReceiver');
@@ -82,7 +84,7 @@ const cartController = {
             console.log({
                 message: "Item added to the cart"
             });
-            
+
             res.status(200).json({
                 message: "Success",
                 data: data
@@ -128,10 +130,11 @@ const cartController = {
 
             if (!product || product.length === 0) {
                 res.status(400).json({
-                    message: "Product not found", productId
+                    message: "Product not found",
+                    productId
                 });
             }
-            console.log("Product details: ",product);
+            console.log("Product details: ", product);
             const productPrice = product[0].price;
             if (productPrice < 0) {
                 // If quantity or price is negative(database error)
@@ -160,7 +163,7 @@ const cartController = {
             cart.products[indexFound].price = productPrice;
             cart.products[indexFound].total = quantity * productPrice;
             cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
-            
+
             let data = await cart.save();
             res.status(200).json({
                 type: "success",
@@ -188,7 +191,7 @@ const cartController = {
                 email
             });
             cart.products = cart.products.filter(product => product.productId != productId);
-            cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc,cur)=>acc+cur);
+            cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, cur) => acc + cur);
             await cart.save();
             console.log({
                 message: "Product deleted successfully"
@@ -263,7 +266,7 @@ const cartController = {
             const cart = await Cart.findOne({
                 email
             });
-            const totalPrice = Array.from(cart.products ?.values()).reduce((total, item) => {
+            const totalPrice = Array.from(cart.products?.values()).reduce((total, item) => {
                 return total + item.price * item.quantity;
             }, 0);
             res.status(200).json({
@@ -291,10 +294,12 @@ const cartController = {
 
     checkoutCart: async (req, res) => {
         try {
-        
+
             const email = getSession(req.cookies.token).email;
-            
-            const {address} = req.body;
+
+            const {
+                address
+            } = req.body;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
@@ -303,34 +308,28 @@ const cartController = {
             });
             // Emit an event indicating checkout has occurred
             const orderState = OrderStates.INITIATED;
-            const eventData = { cart: cart, address: address, orderState: orderState };
-            console.log(`TOKENX 1 ${eventData.cart}`);
-            console.log(`TOKENX 1 ${eventData.address}`);
-            console.log(`TOKENX 1 ${eventData.orderState}`);
-            
-            // emitter.on('checkout', async (receivedEventData)=>{
-            //     try {
-            //         // Call the order service
-            //         console.log(`TOKENX3 ${receivedEventData.cart}`);
-            //         const result = orderController.placeCartOrder(receivedEventData.cart, receivedEventData.address, receivedEventData.status);
-            //         // callback(result);
-            //     } catch (error) {
-            //         console.error('Error placing order:', error);
-            //     }
-            // });
-            emitter.emit('checkout', eventData
-            , (result)=>{
-                if (result) {
-                    console.log('Order initiated successfully:', result);
-                    res.status(200).json({ message: 'Order initiated' });
-                } else {
-                    console.error('Error initiating order:', result.error);
-                    res.status(200).json({ error: `Error initiating order ${result.error}` });
+            const eventData = {
+                cart: cart,
+                address: address,
+                orderState: orderState
+            };
+
+            emitter.emit('checkout', eventData, (result) => {
+                    if (result) {
+                        console.log('Order initiated successfully:', result);
+                        res.status(200).json({
+                            message: 'Order initiated'
+                        });
+                    } else {
+                        console.error('Error initiating order:', result.error);
+                        res.status(200).json({
+                            error: `Error initiating order ${result.error}`
+                        });
+                    }
                 }
-            }
-            
+
             );
-        
+
         } catch (error) {
             console.log("Error processing the deleting the cart", error);
             res.status(500).json({
@@ -341,4 +340,7 @@ const cartController = {
     },
 }
 
-module.exports = {cartController, emitter};
+module.exports = {
+    cartController,
+    emitter
+};
