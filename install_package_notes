@@ -19,3 +19,8 @@
 //for payment
 //npm i stripe
 //https://dashboard.stripe.com/test/apikeys
+
+
+//payment
+//stripe documentation
+//https://docs.stripe.com/connect/account-tokens
