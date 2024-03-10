@@ -121,8 +121,13 @@ const handleUserLogout = async (req, res) => {
     }
 }
 
+const showLoginView = (req,res)=> {
+    res.render('authView', {title: 'Auth View'});
+}
+
 module.exports = {
     handleUserRegistration,
     handleUserLogin,
     handleUserLogout,
+    showLoginView,
 };

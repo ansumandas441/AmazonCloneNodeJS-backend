@@ -16,6 +16,7 @@ const paymentRoutes = require('./routes/paymentRouter');
 const cartRoutes = require('./routes/cartRouter');
 const staticRoutes = require('./routes/staticRouter');
 const orderRoutes = require('./routes/orderRouter');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -25,10 +26,13 @@ app.set("view engine", "ejs");
 app.set("views", path.resolve('views'));
 
 // Content Security Policy middleware
-app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', 'default-src https:');
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Content-Security-Policy', 'default-src https:');
+//     next();
+// });
+
+// Middleware to parse application/x-www-form-urlencoded data
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // JSON and CORS middlewares
 app.use(express.json());
@@ -62,7 +66,7 @@ app.use('/auth/api', authRoutes);
 app.use('/product/api', restrictTo(["NORMAL"]), productRoutes);
 app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
 app.use('/cart/api', restrictTo(["NORMAL"]), cartRoutes);
-app.use('/order/api', restrictTo(["NORMAL"]), orderRoutes)
+app.use('/order/api', restrictTo(["NORMAL"]), orderRoutes);
 // app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
 // app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
 app.use('/', staticRoutes);

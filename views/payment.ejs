@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+</head>
+<body>
+    <h2>Enter creadit card information</h2>
+    <form action="/payment/api/confirm-payment" method="POST">
+        <label for="card_number">Card Number</label>
+        <input type="text" name="card_number" id="card_number" placeholder="Enter card number" required>
+
+        <label for="cvv">Cvv</label>
+        <input type="text" name="cvv" id="cvv" placeholder="Enter CVV">
+
+        <label for="cardholder_name">Card Holder's Name</label>
+        <input type="text" name="name" id="name" placeholder="Enter Name Exactly as on your card">
+
+        <input type="submit" value="SUBMIT">
+    </form>
+
+</body>
+</html>

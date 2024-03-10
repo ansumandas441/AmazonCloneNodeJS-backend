@@ -64,7 +64,19 @@ const paymentController = {
                 error
             });
         }
+    },
+    paymentPage: async (req, res) => {
+        try {
+            res.render('payment', { title: 'Payment API' });
+        } catch (error) {
+            console.log("Error processing payment confirmation", error);
+            res.status(500).json({
+                error: "Internal server error",
+                error
+            });
+        }
     }
+
 }
 
 module.exports = paymentController;
