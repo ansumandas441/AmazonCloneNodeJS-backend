@@ -2,3 +2,5 @@ node_modules
 node_modules/
 config.js
 .env
+new.js
+X509-cert-2381793436636801278.pem
