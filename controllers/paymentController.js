@@ -1,5 +1,4 @@
-const config = require('../config');
-const stripe = require('stripe')(config.stripeSecretKey);
+const fs = require('fs');
 
 const calculateTotalAmount = (items) => {
     return 100;
@@ -67,7 +66,30 @@ const paymentController = {
     },
     paymentPage: async (req, res) => {
         try {
-            res.render('payment', { title: 'Payment API' });
+            fs.readFile('./scripts/stripeFormSubmission2.js', 'utf8', (err, scriptContent)=>{
+                if (err) {
+                    console.error('Error reading script file:', err);
+                    res.status(500).send('Error reading script file');
+                    return;
+                }
+
+                // Render the EJS file with injected JavaScript code
+                res.render('form', {
+                    scriptCode: scriptContent
+                });
+            });
+            res.render('form', { title: 'Payment API' });
+        } catch (error) {
+            console.log("Error processing payment confirmation", error);
+            res.status(500).json({
+                error: "Internal server error",
+                error
+            });
+        }
+    },
+    paymentIntent: async (req, res) => {
+        try {
+            console.log("TOKENX happened 2");
         } catch (error) {
             console.log("Error processing payment confirmation", error);
             res.status(500).json({
@@ -76,7 +98,8 @@ const paymentController = {
             });
         }
     }
-
 }
+
+
 
 module.exports = paymentController;

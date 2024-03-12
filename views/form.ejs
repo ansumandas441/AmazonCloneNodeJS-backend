@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <form class="my-form" action="/payment/api/create-payment" method="post">
+    <input type="hidden" name="token-account" id="token-account">
+    <input type="hidden" name="token-person" id="token-person">
+    <label>
+      <span>Business Name</span>
+      <input class="inp-company-name">
+    </label>
+    <fieldset>
+      <legend>Business Address</legend>
+      <label>
+        <span>Street Address Line 1</span>
+        <input class="inp-company-street-address1">
+      </label>
+      <label>
+        <span>City</span>
+        <input class="inp-company-city">
+      </label>
+      <label>
+        <span>State</span>
+        <input class="inp-company-state">
+      </label>
+      <label>
+        <span>Postal Code</span>
+        <input class="inp-company-zip">
+      </label>
+    </fieldset>
+    <label>
+      <span>Representative First Name</span>
+      <input class="inp-person-first-name">
+    </label>
+    <label>
+      <span>Representative Last Name</span>
+      <input class="inp-person-last-name">
+    </label>
+    <fieldset>
+      <legend>Representative Address</legend>
+      <label>
+        <span>Street Address Line 1</span>
+        <input class="inp-person-street-address1">
+      </label>
+      <label>
+        <span>City</span>
+        <input class="inp-person-city">
+      </label>
+      <label>
+        <span>State</span>
+        <input class="inp-person-state">
+      </label>
+      <label>
+        <span>Postal Code</span>
+        <input class="inp-person-zip">
+      </label>
+    </fieldset>
+    <button>Submit</button>
+  </form>  
+
+  
+</body>
+</html>

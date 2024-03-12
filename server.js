@@ -26,10 +26,10 @@ app.set("view engine", "ejs");
 app.set("views", path.resolve('views'));
 
 // Content Security Policy middleware
-// app.use((req, res, next) => {
-//     res.setHeader('Content-Security-Policy', 'default-src https:');
-//     next();
-// });
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', 'default-src https:');
+    next();
+});
 
 // Middleware to parse application/x-www-form-urlencoded data
 app.use(bodyParser.urlencoded({ extended: true }));

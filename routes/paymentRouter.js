@@ -5,6 +5,7 @@ const router = express.Router();
 router.post('/create-payment-intent', paymentController.handlePaymentIntent);
 router.post('/confirm-payment', paymentController.handlePaymentConfirmation);
 router.get('/paymentPage', paymentController.paymentPage);
+router.post('/create-payment', paymentController.paymentIntent);
 // router.post('/paymentPage', paymentController.paymentPage);
 
 module.exports = router;
