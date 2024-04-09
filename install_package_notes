@@ -24,3 +24,9 @@
 //payment
 //stripe documentation
 //https://docs.stripe.com/connect/account-tokens
+
+//migrating some database from mongodb to Posgresql using prisma orm
+// npm install prisma --save-dev
+// npx prisma
+// npx prisma init
+//create free tier remote postgresql instance from elephantsql, alternately aws,azure instances
