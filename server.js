@@ -16,8 +16,12 @@ const paymentRoutes = require('./routes/paymentRouter');
 const cartRoutes = require('./routes/cartRouter');
 const staticRoutes = require('./routes/staticRouter');
 const orderRoutes = require('./routes/orderRouter');
+const openApiDocumentation = require('./openApiDocumentation');
 
 const app = express();
+
+//setting up documentation
+app.use('/dev/docs', openApiDocumentation);
 
 //Middlewares
 // Set view engine and views directory

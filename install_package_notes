@@ -24,3 +24,9 @@
 //payment
 //stripe documentation
 //https://docs.stripe.com/connect/account-tokens
+
+//documentation
+//npm i swagger-ui-express
+//For autogeneration docs
+//npm install swagger-jsdoc swagger-ui-express
+//configure file named swagger.js

@@ -1,3 +1,33 @@
+/**
+ *@swagger
+ * tags:
+ *   name: Cart
+ *   description: Operations related to shopping cart
+ * /cart/add:
+ *   post:
+ *     summary: Add item to cart
+ *     description: Add an item to the shopping cart
+ *     parameters:
+ *       - in: body
+ *         name: item
+ *         description: Item details
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             productId:
+ *               type: string
+ *               description: ID of the product
+ *             quantity:
+ *               type: integer
+ *               description: Quantity of the product
+ *     responses:
+ *       '200':
+ *         description: Item added successfully
+ *       '400':
+ *         description: Invalid request
+ */
+
 const express = require('express');
 const router = express.Router();
 const {
