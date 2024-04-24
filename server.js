@@ -2,6 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const config = require('./config');
+const admin = require('firebase-admin');
+var serviceAccount = require('./service_account.json');
+
+
 const {
     connectMongoDb
 } = require('./connections');
@@ -48,6 +52,12 @@ app.use((err, req, res, next) => {
 
 //connect to mongoDb
 connectMongoDb();
+
+//firebase connection
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+//
 
 //Apis 
 //test

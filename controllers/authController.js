@@ -24,6 +24,11 @@ const handleUserRegistration = async (req, res) => {
                 message: "User Already Exists. Please provide a new Email Address"
             })
         }
+
+        //check if the email belongs to the person 
+        const totp = generateOtp();
+
+
         const username = `${firstname.toLowerCase()}.${lastname.toLowerCase()}`;
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await User.create({

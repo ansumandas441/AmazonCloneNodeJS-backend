@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
   "author": "Ansuman Das",
   "license": "ISC",
@@ -18,9 +18,13 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
+    "firebase-admin": "^12.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
+    "nodemailer": "^6.9.13",
+    "otpauth": "^9.2.3",
+    "passport-jwt": "^4.0.1",
     "stripe": "^15.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
