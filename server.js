@@ -20,8 +20,12 @@ const cartRoutes = require('./routes/cartRouter');
 const staticRoutes = require('./routes/staticRouter');
 const orderRoutes = require('./routes/orderRouter');
 const openApiDocumentation = require('./openApiDocumentation');
+const rateLimiter = require('./middlewares/rateLimiter');
 
 const app = express();
+
+//
+app.use(rateLimiter);
 
 //setting up documentation
 app.use('/dev/docs', openApiDocumentation);
