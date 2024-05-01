@@ -10,7 +10,6 @@
 //for authentication
 //npm i jsonwebtokens
 //npm i uuid
-//npm i bcrypt
 //installing ELK stack
 //npm i @elastic/elasticsearch
 //
@@ -33,3 +32,6 @@
 
 //remove old version of docker
 //$ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+
+//nodemailer setup
+//https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
