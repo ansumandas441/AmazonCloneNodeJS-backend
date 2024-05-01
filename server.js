@@ -2,8 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const config = require('./config');
-const admin = require('firebase-admin');
-var serviceAccount = require('./service_account.json');
+
 
 
 const {
@@ -53,12 +52,6 @@ app.use((err, req, res, next) => {
 //connect to mongoDb
 connectMongoDb();
 
-//firebase connection
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
-});
-//
-
 //Apis 
 //test
 app.get("/", (req, res) => {
@@ -76,7 +69,7 @@ app.use('/auth/api', authRoutes);
 app.use('/product/api', restrictTo(["NORMAL"]), productRoutes);
 app.use('/payment/api', restrictTo(["NORMAL"]), paymentRoutes);
 app.use('/cart/api', restrictTo(["NORMAL"]), cartRoutes);
-app.use('/order/api', restrictTo(["NORMAL"]), orderRoutes)
+app.use('/order/api', restrictTo(["NORMAL"]), orderRoutes);
 // app.use('/product/api', restrictTo(["ADMIN"]), productRoutes);
 // app.use('/payment/api', restrictTo(["ADMIN"]), paymentRoutes);
 app.use('/', staticRoutes);
