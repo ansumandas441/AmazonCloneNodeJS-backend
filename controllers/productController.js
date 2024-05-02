@@ -49,7 +49,6 @@ const productController = {
           error: "Name and price are required fields"
         });
       }
-      console.log("name and price", name, price);
       const existingProduct = await Product.findOne({
         name: name,
         price: price
@@ -86,13 +85,12 @@ const productController = {
       const productId = req.query.id;
       const product = await Product.findOne({
         _id: productId
-      });
+      }).lean();
       if (!product) {
         return res.status(404).json({
           error: "No Products found by this id"
         });
       }
-      console.log("Response = ", product)
       res.status(200).json(product);
     } catch (error) {
       console.log('Error finding the product by id');
@@ -107,7 +105,7 @@ const productController = {
       const productName = req.query.name;
       const products = await Product.find({
         name: productName
-      })
+      });
       if (products.length > 0) {
         res.status(200).json(products);
       } else {
@@ -170,7 +168,6 @@ const productController = {
   deleteProduct: async (req, res) => {
     try {
       const productId = req.query.id;
-      console.log("productId", productId);
       const deletedProduct = await Product.findByIdAndDelete(
         productId
       );
