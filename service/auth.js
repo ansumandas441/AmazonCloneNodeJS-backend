@@ -13,8 +13,8 @@ const setSession = (user) => {
             },
             secret, {});
     } catch (error) {
-        console.log("Error getting session", error);
-        return null;
+        console.log("Error getting setSession", error);
+        throw error;
     }
 };
 
@@ -25,8 +25,8 @@ const getSession = (token) => {
     try {
         return jwt.verify(token, secret);
     } catch (error) {
-        console.log("Error getting session", error);
-        return null;
+        console.log("Error getting getSession", error);
+        throw error;
     }
 };
 
