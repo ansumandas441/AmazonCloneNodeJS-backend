@@ -8,6 +8,9 @@ const productSchema = new mongoose.Schema({
     tags: [String],
 });
 
+//indexing by name field
+productSchema.index({ name: 1 }); 
+
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = Product;
