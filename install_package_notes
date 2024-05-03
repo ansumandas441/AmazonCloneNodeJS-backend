@@ -35,3 +35,20 @@
 
 //nodemailer setup
 //https://www.freecodecamp.org/news/use-nodemailer-to-send-emails-from-your-node-js-server/
+
+//docker
+//installation
+//https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04
+//working https://medium.com/featurepreneur/a-guide-to-dockerize-your-node-js-application-c24b5e129995
+
+//create docker image
+//docker build -t docker-express-app .
+//run docker image
+//sudo docker run -d -p 9000:8000 your-nodejs-image
+//to port map the application port(8000) to localhost port (9000)
+//to see instance running
+//sudo docker ps
+//to stop the docker app
+//sudo docker stop express-api
+//to start docker app
+//sudo docker start express-api
