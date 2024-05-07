@@ -36,7 +36,7 @@ const cartController = {
             });
 
             if (!product || product.length === 0) {
-                res.status(400).json({
+                res.status(404).json({
                     message: "Product not found"
                 });
             }
@@ -58,8 +58,6 @@ const cartController = {
 
             if (existingCart) {
                 let indexFound = existingCart.products.findIndex(p => p.productId == productId);
-                console.log("Index", indexFound);
-                console.log("Cart = ", existingCart);
                 if (indexFound !== -1) {
                     return res.status(400).json({
                         code: 400,
@@ -69,22 +67,13 @@ const cartController = {
                     existingCart.products.push(cartData.products[0]);
                     existingCart.subTotalPrice = existingCart.products.map(item => item.total).reduce((acc, curr) => acc + curr);
                     let data = await existingCart.save();
-                    console.log({
-                        message: "Item added to the cart"
-                    });
                     return res.status(200).json({
                         message: "Success",
                         data: data
                     });
                 }
             }
-
             let data = Cart.create(cartData);
-
-            console.log({
-                message: "Item added to the cart"
-            });
-
             res.status(200).json({
                 message: "Success",
                 data: data
@@ -117,10 +106,10 @@ const cartController = {
                 email
             });
 
-            if (!cart) {
-                res.status(200).json({
+            if (!cart || cart.length===0) {
+                return res.status(404).json({
+                    code: 400,
                     message: "Cart cound not be found",
-                    data: data
                 });
             }
 
@@ -129,12 +118,11 @@ const cartController = {
             });
 
             if (!product || product.length === 0) {
-                res.status(400).json({
+                return res.status(400).json({
                     message: "Product not found",
                     productId
                 });
             }
-            console.log("Product details: ", product);
             const productPrice = product[0].price;
             if (productPrice < 0) {
                 // If quantity or price is negative(database error)
@@ -147,9 +135,6 @@ const cartController = {
             // If the cart doesn't exist, create a new one
             // cart = await Cart.create({ email, products: {} });
             let indexFound = cart.products.findIndex(p => p.productId == productId);
-            console.log("Index", indexFound);
-            console.log("Cart = ", cart);
-
             if (indexFound === -1) {
                 return res.status(400).json({
                     type: "failure",
@@ -193,9 +178,6 @@ const cartController = {
             cart.products = cart.products.filter(product => product.productId != productId);
             cart.subTotalPrice = cart.products.map(item => item.total).reduce((acc, cur) => acc + cur);
             await cart.save();
-            console.log({
-                message: "Product deleted successfully"
-            });
             res.status(200).json({
                 message: "Success"
             });
@@ -216,9 +198,6 @@ const cartController = {
             });
             await Cart.findOneAndDelete({
                 email: email
-            });
-            console.log({
-                message: "Cart deleted successfully"
             });
             res.status(200).json({
                 message: "Success"
@@ -241,7 +220,7 @@ const cartController = {
             const cart = await Cart.find({
                 email
             });
-            if (!cart) return res.status(400).json({
+            if (!cart || cart.length===0) return res.status(404).json({
                 error: "No cart found with this email id"
             });
             res.status(200).json({
@@ -316,7 +295,6 @@ const cartController = {
 
             emitter.emit('checkout', eventData, (result) => {
                     if (result) {
-                        console.log('Order initiated successfully:', result);
                         res.status(200).json({
                             status: 'success',
                             message: 'Order initiated'
