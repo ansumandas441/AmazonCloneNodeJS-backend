@@ -1,8 +1,3 @@
-// router.post('/register', handleUserRegistration);
-// router.post('/verifyOtp', verifyOtp);
-// router.post('/login', handleUserLogin);
-// router.post('/logout', handleUserLogout);
-
 const supertest = require("supertest")
 const app = require("../app");
 const authData = require('./testData/data/auth.test.data');
