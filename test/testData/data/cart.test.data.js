@@ -8,7 +8,7 @@ const cartQuantity = {
         "quantity": -2
     },
     nonExistentProductCart: {
-        "productId": "65df7f3ad662014f95240812",
+        "productId": "65d57f3ad662014f95240842",
         "quantity": 4
     },
     editedCartEntry: {
@@ -18,6 +18,9 @@ const cartQuantity = {
     deleteCartEntry: {
         "productId": "65df7f3ad662014f95240812",
     },
+    checkoutCartData: {
+        "address": "New orleans"
+    }
 }
 
 module.exports = cartQuantity;

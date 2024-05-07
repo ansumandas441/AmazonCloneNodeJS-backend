@@ -11,6 +11,12 @@ const hashGenerator = require('../utils/hashGenerator');
 
 const handleUserRegistration = async (req, res) => {
     try {
+        if(req.user!==null){
+            return res.status(409).json({
+                error: "Conflict",
+                message: "User is already logged in"
+            });
+        }
         const {
             firstname,
             lastname,
@@ -54,6 +60,12 @@ const handleUserRegistration = async (req, res) => {
 const verifyOtp = async (req, res)=>{
     try {
         //fetch username otp email id from firestore
+        if(req.user!==null){
+            return res.status(409).json({
+                error: "Conflict",
+                message: "User is already logged in"
+            });
+        }
         const {
             email,
             otp
@@ -113,15 +125,12 @@ const verifyOtp = async (req, res)=>{
 
 const handleUserLogin = async (req, res) => {
     try {
-        const existingSessionId = req.cookies.token;
-        const existingUser = getSession(existingSessionId);
-        if (existingSessionId && await User.find({
-                user: existingUser.email
-            })) {
-            return res.status(201).json({
-                message: "User Already Loggedin."
+        if(req.user!==null){
+            return res.status(409).json({
+                error: "Conflict",
+                message: "User is already logged in"
             });
-        };
+        }
         const {
             email,
             password

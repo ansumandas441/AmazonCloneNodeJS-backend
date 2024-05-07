@@ -5,7 +5,6 @@ const {
 const checkForAuthentication = (req, res, next) => {
     try {
         const token = req.cookies?.token;
-        // console.log("GIVEN TOKEN", token);
         req.user = null;
         if (!token) return next();
         const user = getSession(token);

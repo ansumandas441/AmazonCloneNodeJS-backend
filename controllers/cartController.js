@@ -14,14 +14,13 @@ setupReceiver();
 const cartController = {
     addToCart: async (req, res) => {
         try {
-            const email = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const productId = req.body.productId;
             const quantity = Number.parseInt(req.body.quantity);
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
             if (quantity < 0) {
-                // If quantity or price is negative(database error)
                 return res.status(400).json({
                     code: 400,
                     message: "Invalid request"
@@ -34,9 +33,8 @@ const cartController = {
             const product = await Product.find({
                 _id: productId
             });
-
             if (!product || product.length === 0) {
-                res.status(404).json({
+                return res.status(404).json({
                     message: "Product not found"
                 });
             }
@@ -89,14 +87,13 @@ const cartController = {
     },
     updateCart: async (req, res) => {
         try {
-            const email = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const productId = req.body.productId;
             const quantity = Number.parseInt(req.body.quantity);
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
             if (quantity < 0) {
-                // If quantity or price is negative(database error)
                 return res.status(400).json({
                     code: 400,
                     message: "Invalid request"
@@ -108,7 +105,7 @@ const cartController = {
 
             if (!cart || cart.length===0) {
                 return res.status(404).json({
-                    code: 400,
+                    code: 404,
                     message: "Cart cound not be found",
                 });
             }
@@ -118,7 +115,7 @@ const cartController = {
             });
 
             if (!product || product.length === 0) {
-                return res.status(400).json({
+                return res.status(404).json({
                     message: "Product not found",
                     productId
                 });
@@ -167,7 +164,7 @@ const cartController = {
 
     deleteFromCart: async (req, res) => {
         try {
-            const email = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const productId = req.body.productId;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
@@ -213,7 +210,7 @@ const cartController = {
 
     viewCart: async (req, res) => {
         try {
-            const email = getSession(req.cookies.token).email;
+            const email = req.user.email;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
@@ -238,7 +235,7 @@ const cartController = {
 
     calculatePrice: async (req, res) => {
         try {
-            const email = getSession(req.cookies.token).email;
+            const email = req.user.email;
             if (!email) return res.status(401).json({
                 error: "No email id provied"
             });
@@ -274,8 +271,7 @@ const cartController = {
     checkoutCart: async (req, res) => {
         try {
 
-            const email = getSession(req.cookies.token).email;
-
+            const email = req.user.email;
             const {
                 address
             } = req.body;
