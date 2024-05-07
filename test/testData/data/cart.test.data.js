@@ -1,4 +1,4 @@
-const cartQuantity = {
+const cartData = {
     cartEntry: {
         "productId": "65df7f3ad662014f95240812",
         "quantity": 4
@@ -23,4 +23,4 @@ const cartQuantity = {
     }
 }
 
-module.exports = cartQuantity;
+module.exports = cartData;

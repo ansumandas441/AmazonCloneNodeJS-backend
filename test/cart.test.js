@@ -1,16 +1,8 @@
-// router.post('/add', cartController.addToCart);
-// router.post('/checkout', cartController.checkoutCart);
-// // router.post('/coupon'), ;
-// router.post('/total', cartController.calculatePrice);
-// router.post('/save');
-// router.put('/edit', cartController.updateCart);
-// router.get('/view', cartController.viewCart);
-// router.delete('/remove', cartController.deleteFromCart);
-// router.delete('/clear', cartController.deleteCart);
-
 const supertest = require("supertest")
 const app = require("../app");
 const cartData = require('./testData/data/cart.test.data');
+const { connectMongoDb } = require('../connections');
+const mongoose = require('mongoose');
 
 require("dotenv").config();
 
@@ -51,7 +43,8 @@ beforeAll(async () => {
       password:'viltrum'
     });
     noCartToken = noCartResponse.header['set-cookie'][0].split('token=')[1].split(';')[0];
-  }); 
+  }
+); 
 
 describe("GET /cart/api/view", ()=>{
     test(`should return all carts`, async ()=>{
