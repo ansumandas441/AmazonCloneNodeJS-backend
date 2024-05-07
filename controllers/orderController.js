@@ -44,7 +44,7 @@ const orderController = {
 
     getOrders: async (req, res) => {
         try {
-            const userId = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const orders = await Order.find({userId: userId});
             if(!orders){
                 return res.status(401).json({
@@ -66,7 +66,7 @@ const orderController = {
 
     getOrderStatus: async (req, res) => {
         try {
-            const userId = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const orderId = req.body.orderId;
             const orders = await Order.find({userId: userId});
             if(orders.some(item=>item._id.toString()===orderId)){
@@ -90,7 +90,7 @@ const orderController = {
 
     getOrderDetail: async (req, res) => {
         try {
-            const userId = getSession(req.cookies.token).email;
+            const email = req.user.email;
             const orderId = req.body.orderId;
             const orders = await Order.find({userId: userId});
             const order = orders.find(item=>item._id.toString()===orderId)

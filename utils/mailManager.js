@@ -16,7 +16,7 @@ let transporter = nodemailer.createTransport({
 );
 
 const mailManager = {
-    sendMail: (email, otp)=>{
+    sendMail: async (email, otp)=>{
         try {
             
             let mailOptions = {
@@ -25,7 +25,7 @@ const mailManager = {
                 subject: 'Nodemailer Project',
                 text: `Please use the below OTP code: ${otp} to validate the request`
             };
-            transporter.sendMail(mailOptions, function(err, data) {
+            await transporter.sendMail(mailOptions, function(err) {
                 if (err) {
                     console.log("Error " + err);
                 } else {

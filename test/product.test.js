@@ -1,6 +1,8 @@
 const supertest = require("supertest")
 const app = require("../app");
-const productData = require('./productTest/data/product.test.data');
+const productData = require('./testData/data/product.test.data');
+const { connectMongoDb } = require('../connections');
+const mongoose = require('mongoose');
 
 require("dotenv").config();
 
@@ -63,7 +65,7 @@ describe("POST /product/api/add", ()=>{
     return supertest(app)
         .post("/product/api/add")
         .set('Cookie', [`token=${token}`])
-        .send(productData.reqaddProduct)
+        .send(productData.product)
         .expect('Content-Type',/application\/json/)
         .expect(201)
         .then((res)=>{

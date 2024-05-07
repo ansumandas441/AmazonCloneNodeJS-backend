@@ -1,5 +1,5 @@
 const productData = {
-    reqaddProduct: {
+    product: {
         "name": "test product",
         "price": 100,
         "description": "test product description",

@@ -37,7 +37,7 @@ const {
 router.post('/add', cartController.addToCart);
 router.post('/checkout', cartController.checkoutCart);
 // router.post('/coupon'), ;
-router.post('/total', cartController.calculatePrice);
+router.get('/total', cartController.calculatePrice);
 router.post('/save');
 router.put('/edit', cartController.updateCart);
 router.get('/view', cartController.viewCart);
