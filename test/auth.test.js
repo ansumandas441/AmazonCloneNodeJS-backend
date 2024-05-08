@@ -1,7 +1,7 @@
 const supertest = require("supertest")
-const app = require("../app");
+const app = require("../src/app");
 const authData = require('./testData/data/auth.test.data');
-const User = require('../models/userModel');
+const User = require('../src/models/userModel');
 
 require("dotenv").config();
 

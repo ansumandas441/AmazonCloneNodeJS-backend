@@ -1,7 +1,7 @@
 const supertest = require("supertest")
-const app = require("../app");
+const app = require("../src/app");
 const productData = require('./testData/data/product.test.data');
-const { connectMongoDb } = require('../connections');
+const { connectMongoDb } = require('../src/connections');
 const mongoose = require('mongoose');
 
 require("dotenv").config();
