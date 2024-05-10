@@ -52,3 +52,14 @@
 //sudo docker stop express-api
 //to start docker app
 //sudo docker start express-api
+
+//typescript
+
+//npm i -D typescript
+//npx tsc --init
+//modify tsconfig.json
+//npm install --save-dev @types/express @types/node
+// npm install --save-dev typescript @types/cors
+//npm install --save-dev typescript @types/cookie-parser
+//npm install --save-dev typescript @types/jest
+
