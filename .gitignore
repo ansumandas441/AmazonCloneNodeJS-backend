@@ -1,11 +1,9 @@
 node_modules
-node_modules/
 config.js
 .env
 X509-cert-4872692784746398304.pem
 service_account.json
-.nyc_output/
-coverage/
-certificates/
-dist/
-./dist
+.nyc_output
+coverage
+certificates
+dist
