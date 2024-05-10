@@ -1,5 +1,5 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 interface Config {
   sslCertPath: string;
@@ -8,7 +8,6 @@ interface Config {
   sslOptions: {
     ssl: boolean;
     tlsCertificateKeyFile: string;
-    serverApi: typeof ServerApiVersion;
   };
   loginCookieConfig: {
     maxAge: number;
@@ -31,7 +30,6 @@ let config: Config = {
   sslOptions: {
     ssl: true,
     tlsCertificateKeyFile: process.env.SSL_CERT_PATH || '',
-    serverApi: ServerApiVersion.v1,
   },
   loginCookieConfig: {
     // secure: true,

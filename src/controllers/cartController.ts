@@ -1,8 +1,8 @@
-import Cart from '../models/cartModel';
-import Product from '../models/productModel';
-import OrderStates from '../models/orderStates';
+import Cart from '../models/cartModel.js';
+import Product from '../models/productModel.js';
+import OrderStates from '../models/orderStates.js';
 import { Request, Response } from 'express';
-import MyJwtPayload from '../shared/MyJwtPayload';
+import MyJwtPayload from '../shared/MyJwtPayload.js';
 
 const cartController = {
     addToCart: async (req: Request, res: Response) => {
@@ -312,6 +312,7 @@ const cartController = {
                     message:'No user found for this cart'
                 })
             }
+            console.log('Flag1');
             let existingUser = req.user as MyJwtPayload;
             const email = existingUser.email;
             const {
@@ -323,6 +324,7 @@ const cartController = {
             const cart = await Cart.findOne({
                 email
             });
+            console.log('Flag2');
             // Emit an event indicating checkout has occurred
             const orderState = OrderStates.INITIATED;
             const eventData = {
@@ -330,6 +332,13 @@ const cartController = {
                 address: address,
                 orderState: orderState
             };
+
+            //TO BE DONE WORK FOR SENDING ORDER
+            console.log('Flag3');
+            res.status(200).json({
+                message: "Success",
+            });
+
         } catch (error) {
             console.log("Error processing the deleting the cart", error);
             res.status(500).json({

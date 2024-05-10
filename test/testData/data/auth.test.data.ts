@@ -11,4 +11,4 @@ const authData = {
     }
 }
 
-module.exports = authData;
+export default authData;

@@ -1,6 +1,6 @@
 import { Timestamp } from 'mongodb';
-import session from '../service/auth';
-import Order from '../models/orderModel';
+import session from '../service/auth.js';
+import Order from '../models/orderModel.js';
 import { Request, Response } from 'express';
 
 const orderController = {

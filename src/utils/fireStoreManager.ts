@@ -1,4 +1,4 @@
-import admin from '../middlewares/firebaseAdmin';
+import admin from '../middlewares/firebaseAdmin.js';
 
 // Initiliaze firestore database
 const db=admin.firestore();

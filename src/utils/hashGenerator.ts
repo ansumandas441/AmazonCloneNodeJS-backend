@@ -1,5 +1,5 @@
 import { randomBytes, createHash } from 'crypto';
-import config from '../config';
+import config from '../config.js';
 
 //  function for generating hash-secret for otp
 const hashGenerator = {

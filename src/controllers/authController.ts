@@ -1,12 +1,12 @@
-import User from '../models/userModel';
-import session from '../service/auth';
-import config from '../config';
-import otpManager from '../utils/otpManager';
-import mailManager from '../utils/mailManager';
-import fireStoreManager from '../utils/fireStoreManager';
-import hashGenerator from '../utils/hashGenerator';
+import User from '../models/userModel.js';
+import session from '../service/auth.js';
+import config from '../config.js';
+import otpManager from '../utils/otpManager.js';
+import mailManager from '../utils/mailManager.js';
+import fireStoreManager from '../utils/fireStoreManager.js';
+import hashGenerator from '../utils/hashGenerator.js';
 import { Request, Response } from 'express';
-import UserDocument from '../shared/UserDocument';
+import UserDocument from '../shared/UserDocument.js';
 
 const handleUserRegistration = async (req: Request, res: Response) => {
     try {

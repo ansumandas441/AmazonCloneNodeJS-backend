@@ -1,5 +1,5 @@
 import { connect, Schema, model, disconnect } from 'mongoose';
-import config from '../config';
+import config from '../config.js';
 
 // Connect to MongoDB
 connect(config.connection_url, { ...config.sslOptions })

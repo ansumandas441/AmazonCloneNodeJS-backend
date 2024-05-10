@@ -1,8 +1,17 @@
-import admin, { initializeApp, credential as _credential } from 'firebase-admin';
+// import admin, { initializeApp, credential as _credential } from 'firebase-admin';
+import admin from 'firebase-admin'
 import serviceAccount from '../../certificates/service_account.json';
 
-initializeApp({
-    credential: _credential.cert(serviceAccount as admin.ServiceAccount)
-});  
+if (serviceAccount) {
+    admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+    });  
+} else {
+    console.error('Service account is undefined or null');
+}
+// admin.initializeApp({
+//     credential: admin.credential.cert(serviceAccount as admin.ServiceAccount)
+// });  
+
 
 export default admin;

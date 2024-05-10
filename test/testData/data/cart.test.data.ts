@@ -7,7 +7,7 @@ const cartData = {
         "productId": "65df7f3ad662014f95240812",
         "quantity": -2
     },
-    nonExistentProductCart: {
+    nonExistentCartProduct: {
         "productId": "65d57f3ad662014f95240842",
         "quantity": 4
     },
@@ -23,4 +23,4 @@ const cartData = {
     }
 }
 
-module.exports = cartData;
+export default cartData;

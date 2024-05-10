@@ -34,4 +34,4 @@ const productData = {
         "tags": ["latest1","latest2"]
     }
 }
-module.exports = productData;
+export default productData;

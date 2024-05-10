@@ -1,6 +1,6 @@
 import { TOTP } from 'otpauth';
-import hashGenerator from './hashGenerator';
-import config from '../config';
+import hashGenerator from './hashGenerator.js';
+import config from '../config.js';
 
 const otpManager = {
   // Generate otp

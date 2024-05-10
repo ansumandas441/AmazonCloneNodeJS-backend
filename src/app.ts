@@ -2,22 +2,22 @@ import express, { json, Request, Response , NextFunction} from 'express';
 import cors from 'cors';
 import { resolve } from 'path';
 
-import connectMongoDb from './connections';
+import connectMongoDb from './connections.js';
 import cookieParser from 'cookie-parser';
-import authMiddleWares from './middlewares/authMiddleWares';
-import authRoutes from './routes/authRouter';
-import productRoutes from './routes/productRouter';
-import paymentRoutes from './routes/paymentRouter';
-import cartRoutes from './routes/cartRouter';
-import staticRoutes from './routes/staticRouter';
-import orderRoutes from './routes/orderRouter';
-import openApiDocumentation from './openApiDocumentation';
-import rateLimiter from './middlewares/rateLimiter';
+import authMiddleWares from './middlewares/authMiddleWares.js';
+import authRoutes from './routes/authRouter.js';
+import productRoutes from './routes/productRouter.js';
+import paymentRoutes from './routes/paymentRouter.js';
+import cartRoutes from './routes/cartRouter.js';
+import staticRoutes from './routes/staticRouter.js';
+import orderRoutes from './routes/orderRouter.js';
+import openApiDocumentation from './openApiDocumentation.js';
+import rateLimiter from './middlewares/rateLimiter.js';
 
 const app = express();
 
 //
-app.use(rateLimiter);
+// app.use(rateLimiter);
 
 //setting up documentation
 app.use('/dev/docs', openApiDocumentation);
@@ -40,7 +40,7 @@ app.use(cookieParser());
 app.use(authMiddleWares.checkForAuthentication);
 
 // Error handling middleware
-app.use((err: Error, req: Request, res: Response) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     // console.error(err.stack);
     res.status(500).send('Something went wrong!');
 });
@@ -50,12 +50,12 @@ connectMongoDb();
 
 //Apis 
 //test
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
     res.status(200).send("Hello world");
 });
 
 //add product
-app.post("/products/add", (req, res) => {
+app.post("/products/add", (req: Request, res: Response) => {
     const productDetail = req.body;
     console.log("Product detail written");
 });

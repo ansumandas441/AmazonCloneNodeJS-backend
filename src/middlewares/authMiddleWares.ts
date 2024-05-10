@@ -1,6 +1,6 @@
-import session from '../service/auth';
+import session from '../service/auth.js';
 import { Request, Response, NextFunction } from 'express';
-import MyJwtPayload from '../shared/MyJwtPayload';
+import MyJwtPayload from '../shared/MyJwtPayload.js';
 
 const checkForAuthentication = (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,13 +1,15 @@
-import { sign, verify } from 'jsonwebtoken';
-import UserDocument from '../shared/UserDocument';
+import jwt from 'jsonwebtoken';
+import UserDocument from '../shared/UserDocument.js';
 const secret = "NewSecret*()$";
+
+
 
 const setSession = (user: UserDocument) => {
     if (!user) {
         return null;
     }
     try {
-        return sign({
+        return jwt.sign({
                 _id: user._id,
                 email: user.email,
                 role: user.role
@@ -24,7 +26,7 @@ const getSession = (token: string) => {
         return null;
     }
     try {
-        return verify(token, secret);
+        return jwt.verify(token, secret);
     } catch (error) {
         console.log("Error getting getSession", error);
         throw error;

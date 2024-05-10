@@ -11,6 +11,7 @@ interface ProductItem {
   
   // Define interface for the cart document
   interface ProductDocument extends Document {
+    _id:string,
     name: string;
     price: number;
     description: string;
