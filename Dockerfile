@@ -1,10 +1,15 @@
-FROM node:20-alpine
+FROM node:20-alpine as base 
 WORKDIR /app
 ##this package json files are copied and the configuration run for caching the saved 
 #configuration response incase the code does not change
 COPY package*.json ./
 RUN npm install
 COPY . .
-EXPOSE 3001
-CMD ["npm","start"]
 
+FROM base as development
+CMD ["npm","run","dev"]
+
+FROM base as production
+ENV NODE_PATH=./dist
+RUN npm run build
+CMD ["npm","start"]
