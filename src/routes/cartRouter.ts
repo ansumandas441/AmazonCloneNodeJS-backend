@@ -30,7 +30,7 @@
 
 import { Router } from 'express';
 const router = Router();
-import cartController from '../controllers/cartController.js';
+import cartController from '../controllers/cartController';
 
 router.post('/add', cartController.addToCart);
 router.post('/checkout', cartController.checkoutCart);

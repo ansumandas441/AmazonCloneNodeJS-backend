@@ -1,8 +1,8 @@
 const authData = {
     registrationData:{
-        "email": "testAuth@gmail.com",
         "firstname": "New",
         "lastname": "User",
+        "email": "testAuth@gmail.com",
         "password": "viltrum"
     },
     loginData:{

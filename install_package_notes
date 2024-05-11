@@ -44,7 +44,7 @@
 //create docker image
 //docker build -t docker-express-app .
 //run docker image
-//sudo docker run -d -p 9000:8000 your-nodejs-image
+//sudo docker run -d -p 9000:8000 your-nodejs-image 
 //to port map the application port(8000) to localhost port (9000)
 //to see instance running
 //sudo docker ps
@@ -52,6 +52,14 @@
 //sudo docker stop express-api
 //to start docker app
 //sudo docker start express-api
+
+//remove and image
+//docker rmi image_name --force
+
+//install docker copose plugin
+//build an image-> docker compose -f docker-compose.yml build //for production use docker-compose.prod.yml
+//run an image -> docker compose up ecommerce-express-app -d
+//directly run from docker compose files -> docker compose -f docker-compose.yml up -d
 
 //typescript
 
