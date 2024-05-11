@@ -1,9 +1,9 @@
-const supertest = require("supertest")
-const app = require("../src/app");
-const authData = require('./testData/data/auth.test.data');
-const User = require('../src/models/userModel');
-
-require("dotenv").config();
+import supertest from "supertest";
+import app from "../dist/src/app.js";
+import authData from './testData/data/auth.test.data';
+import User from '../dist/src/models/userModel.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
 describe("POST /auth/api/register", ()=>{
     test(`should innitiate the registration process`, async ()=>{

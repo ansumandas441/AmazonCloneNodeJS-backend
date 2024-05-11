@@ -3,18 +3,24 @@
   "version": "1.0.0",
   "description": "This is the starting point of AmazonClone",
   "main": "server.js",
+  "type": "module",
+  "sourceType": "module",
   "scripts": {
+    "start": "NODE_ENV=production node ./dist/src/server.js",
+    "dev": "NODE_ENV=development npx tsx ./src/server.ts",
+    "build": "tsc --build",
     "test": "npm-run-all test-jest",
-    "test-jest": "jest --watchAll",
+    "test-jest": "NODE_ENV=test jest --watchAll",
     "test-nyc": "nyc mocha './test/mochaTest/*.js'",
-    "test-mocha": "mocha './test/mochaTest/*.js'",
-    "start": "node ./src/server.js",
-    "dev": "nodemon ./src/server.js"
+    "test-mocha": "mocha './test/mochaTest/*.js'"
   },
   "author": "Ansuman Das",
   "license": "ISC",
   "dependencies": {
     "@elastic/elasticsearch": "^8.13.1",
+    "@types/nodemon": "^1.19.6",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -33,10 +39,23 @@
     "stripe": "^15.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/plugin-syntax-import-attributes": "^7.24.1",
+    "@babel/preset-env": "^7.24.5",
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/node": "^20.12.11",
+    "@types/nodemailer": "^6.4.15",
+    "@types/supertest": "^6.0.2",
     "autocannon": "^7.15.0",
+    "babel-jest": "^29.7.0",
     "chai": "^5.1.0",
     "eslint": "^9.1.1",
     "eslint-plugin-mocha": "^10.4.3",
@@ -47,6 +66,10 @@
     "nodemon": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^15.1.0",
-    "supertest": "^7.0.0"
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.9.4",
+    "typescript": "^5.4.5"
   }
 }

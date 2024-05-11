@@ -1,14 +1,16 @@
-const supertest = require("supertest")
-const app = require("../src/app");
-const productData = require('./testData/data/product.test.data');
-const { connectMongoDb } = require('../src/connections');
-const mongoose = require('mongoose');
+import supertest from "supertest";
+import app from "../dist/src/app";
+import productData from './testData/data/product.test.data';
+import { connectMongoDb } from '../dist/src/connections';
+import mongoose from 'mongoose';
 
-require("dotenv").config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 let token = '';
 let editableProductId = '';
-let searchOrGetId = '65a9acf346611ac10aea9790'
+let searchOrGetId = '65a9acf346611ac10aea9790';
+let searchName = "MIx"
 
 beforeAll(async () => {
   const response = await supertest(app)
@@ -17,7 +19,7 @@ beforeAll(async () => {
     email:'test@gmail.com',
     password:'viltrum'
   });
-  token = response.header['set-cookie'][0].split('token=')[1].split(';')[0];
+  token = response.headers['set-cookie'][0].split('token=')[1].split(';')[0];
 });
 
 describe("GET /product/api/getAll", ()=>{
@@ -26,14 +28,14 @@ describe("GET /product/api/getAll", ()=>{
         .get("/product/api/getAll")
         .set('Cookie', [`token=${token}`])
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 
   test(`should return unauthorized when not authenticated`, async () => {
     // Make the request without an authentication token
     return supertest(app)
       .get("/product/api/getAll")
-      .set('Cookie', [`token=invalidToken}`])
+      .set('Cookie', [`token=invalidToken`])
       .expect(401); // Assuming 401 is the status code for unauthorized access
   });
 });
@@ -45,7 +47,7 @@ describe("GET /product/api/getById", ()=>{
         .set('Cookie', [`token=${token}`])
         .query({id:searchOrGetId})
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 });
 
@@ -56,7 +58,7 @@ describe("GET /product/api/getByName", ()=>{
         .set('Cookie', [`token=${token}`])
         .query({name:'Mixer'})
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 });
 
@@ -79,7 +81,7 @@ describe("POST /product/api/add", ()=>{
         .set('Cookie', [`token=${token}`])
         .send(productData.faultyNameProduct)
         .expect('Content-Type',/application\/json/)
-        .expect(400)
+        .expect(400);
   });
 
   test(`should return error if price is missing`, async ()=>{
@@ -88,7 +90,7 @@ describe("POST /product/api/add", ()=>{
         .set('Cookie', [`token=${token}`])
         .send(productData.faultyPriceProduct)
         .expect('Content-Type',/application\/json/)
-        .expect(400)
+        .expect(400);
   });
 
   test(`should return error if name and price is missing`, async ()=>{
@@ -97,7 +99,7 @@ describe("POST /product/api/add", ()=>{
         .set('Cookie', [`token=${token}`])
         .send(productData.faultyNameAndPriceProduct)
         .expect('Content-Type',/application\/json/)
-        .expect(400)
+        .expect(400);
   });
 });
 
@@ -109,7 +111,7 @@ describe("PUT /product/api/edit", ()=>{
         .query({id:editableProductId})
         .send(productData.requpdateProduct)
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 });
 
@@ -120,7 +122,7 @@ describe("DELETE /product/api/delete", ()=>{
         .set('Cookie', [`token=${token}`])
         .query({id:editableProductId})
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 });
 
@@ -129,8 +131,8 @@ describe("GET /product/api/search", ()=>{
     return supertest(app)
         .get("/product/api/search")
         .set('Cookie', [`token=${token}`])
-        .query({id:searchOrGetId})
+        .query({name:searchName})
         .expect('Content-Type',/application\/json/)
-        .expect(200)
+        .expect(200);
   });
 });

@@ -1,0 +1,15 @@
+services:
+  ecommerce-express-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: ecommerce-express-app    
+    volumes:
+      - ./src:/app/src
+    container_name: ecommerce-node-docker
+    expose:
+      - '3001'
+    ports:
+      - '3001:4000'
+    command: npm run dev

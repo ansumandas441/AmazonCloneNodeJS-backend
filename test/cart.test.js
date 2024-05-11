@@ -1,50 +1,57 @@
-const supertest = require("supertest")
-const app = require("../src/app");
-const cartData = require('./testData/data/cart.test.data');
-const { connectMongoDb } = require('../src/connections');
-const mongoose = require('mongoose');
-
-require("dotenv").config();
+import supertest from "supertest";
+import app from "../dist/src/app";
+import cartData from './testData/data/cart.test.data';
+import { connectMongoDb } from '../dist/src/connections';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 let token = '';
 let editableProductId = '';
-let searchOrGetId = '65a9acf346611ac10aea9790'
+let searchOrGetId = '65a9acf346611ac10aea9790';
+let disposableCartToken = '';
+let noCartToken = '';
 
 beforeAll(async () => {
-    //Already present cart
-    const response = await supertest(app)
-    .post('/auth/api/login')
-    .send({
-      email:'hello2@gmail.com',
-      password:'viltrum'
-    });
-    token = response.header['set-cookie'][0].split('token=')[1].split(';')[0];
+    // Log in to get token for an existing cart
+    const existingCartLoginResponse = await supertest(app)
+        .post('/auth/api/login')
+        .send({
+            email: 'hello2@gmail.com',
+            password: 'viltrum'
+        });
+    token = existingCartLoginResponse.headers['set-cookie'][0]
+        .split('token=')[1]
+        .split(';')[0];
 
-    const disposableCartResponse = await supertest(app)
-    .post('/auth/api/login')
-    .send({
-      email:'testCart@gmail.com',
-      password:'viltrum'
-    });
-    disposableCartToken = disposableCartResponse.header['set-cookie'][0].split('token=')[1].split(';')[0];
+    // Log in to get token for a disposable cart
+    const disposableCartLoginResponse = await supertest(app)
+        .post('/auth/api/login')
+        .send({
+            email: 'testCart@gmail.com',
+            password: 'viltrum'
+        });
+    disposableCartToken = disposableCartLoginResponse.headers['set-cookie'][0]
+        .split('token=')[1]
+        .split(';')[0];
 
-    //create a disposable cart
+    // Create a disposable cart
     await supertest(app)
         .post("/cart/api/add")
         .set('Cookie', [`token=${disposableCartToken}`])
-        .send(cartData.cartEntry)
-    //      
+        .send(cartData.cartEntry);
 
-    //No cart present
-    const noCartResponse = await supertest(app)
-    .post('/auth/api/login')
-    .send({
-      email:'test@gmail.com',
-      password:'viltrum'
-    });
-    noCartToken = noCartResponse.header['set-cookie'][0].split('token=')[1].split(';')[0];
-  }
-); 
+    // Log in to simulate a user with no cart
+    const noCartLoginResponse = await supertest(app)
+        .post('/auth/api/login')
+        .send({
+            email: 'test@gmail.com',
+            password: 'viltrum'
+        });
+    noCartToken = noCartLoginResponse.headers['set-cookie'][0]
+        .split('token=')[1]
+        .split(';')[0];
+});
 
 describe("GET /cart/api/view", ()=>{
     test(`should return all carts`, async ()=>{
@@ -54,7 +61,6 @@ describe("GET /cart/api/view", ()=>{
           .expect('Content-Type',/application\/json/)
           .expect(200)
     });
-  
     test(`should return 400 if not cart found`, async ()=>{
         return supertest(app)
             .get("/cart/api/view")
@@ -160,8 +166,8 @@ describe("PUT /cart/api/edit", ()=>{
     test(`should return product could not be found`, async ()=>{
         return supertest(app)
             .put("/cart/api/edit")
-            .set('Cookie', [`token=${noCartToken}`])
-            .send(cartData.editedCartEntry)
+            .set('Cookie', [`token=${disposableCartToken}`])
+            .send(cartData.nonExistentCartProduct)
             .expect('Content-Type',/application\/json/)
             .expect(404)
         });        
