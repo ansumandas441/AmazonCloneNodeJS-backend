@@ -8,7 +8,6 @@ services:
       target: base
     volumes:
       - ./src:/app/src
-      - ./nodemon.json:/home/node/app/nodemon.json
     container_name: ecommerce-node-docker
     expose:
       - '4000'

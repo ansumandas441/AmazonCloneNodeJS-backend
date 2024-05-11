@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 interface Config {
+  environment: string,
   sslCertPath: string;
   connection_url: string;
   port: Number;
@@ -24,6 +25,7 @@ interface Config {
 }
 
 let config: Config = {
+  environment: process.env.NODE_ENV || 'development',
   sslCertPath: process.env.SSL_CERT_PATH || '',
   connection_url:process.env.CONNECTION_URL?.replace('{DB_NAME}', 'amazondb1') || '',
   port:parseInt(process.env.PORT || "8888", 10),

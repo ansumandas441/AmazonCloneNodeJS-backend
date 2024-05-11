@@ -6,11 +6,11 @@
   "type": "module",
   "sourceType": "module",
   "scripts": {
-    "start": "node dist/src/server.ts",
-    "dev": "npx tsx ./src/server.ts",
+    "start": "NODE_ENV=production node ./dist/src/server.js",
+    "dev": "NODE_ENV=development npx tsx ./src/server.ts",
     "build": "tsc --build",
     "test": "npm-run-all test-jest",
-    "test-jest": "jest --watchAll",
+    "test-jest": "NODE_ENV=test jest --watchAll",
     "test-nyc": "nyc mocha './test/mochaTest/*.js'",
     "test-mocha": "mocha './test/mochaTest/*.js'"
   },
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.5",
+    "@babel/plugin-syntax-import-attributes": "^7.24.1",
     "@babel/preset-env": "^7.24.5",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
