@@ -2,7 +2,7 @@ import express, { json, Request, Response , NextFunction} from 'express';
 import cors from 'cors';
 import { resolve } from 'path';
 
-import connectMongoDb from './connections.js';
+import {connectMongoDb, connectRedis} from './connections.js';
 import cookieParser from 'cookie-parser';
 import authMiddleWares from './middlewares/authMiddleWares.js';
 import authRoutes from './routes/authRouter.js';
@@ -47,6 +47,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 //connect to mongoDb
 connectMongoDb();
+connectRedis();
 
 //Apis 
 //test

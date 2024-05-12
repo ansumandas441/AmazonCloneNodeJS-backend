@@ -1,3 +1,4 @@
+import { redisClient } from "../../connections.js";
 import Product from "../../models/productModel.js";
 import { Request, Response } from 'express';
 
@@ -45,16 +46,17 @@ const getAll = async (req: Request, res: Response) => {
 
 const getById = async (req: Request, res: Response) => {
     try {
-      let productId: string | null = 'id' in req.query ? req.query.id as string : null;
-      if(!productId){
-        return res.status(400).json({
-          error: "ProductId is required field, Bad request"
-        });
-      }
+      let productId: string = req.query.id as string;
       const product = await Product.findOne({
         _id: productId
       }).lean();
-      if (!product) {
+      if (product) {
+        // Store the result in Redis cache before sending response
+        const cacheKey = `product_name:${productId}`;
+        await redisClient.set(cacheKey, JSON.stringify(product), {
+          EX: 3600, // expires in 1 hour
+        });
+     } else {
         return res.status(404).json({
           error: "No Products found by this id"
         });
@@ -76,11 +78,17 @@ const getById = async (req: Request, res: Response) => {
           error: "Product Name is required field, Bad request"
         });
       }
+
       const products = await Product.find({
         name: productName
-      });
+      }).lean();
       if (products.length > 0) {
-        res.status(200).json(products);
+        // Store the result in Redis cache before sending response
+        const cacheKey = `product_name:${productName}`;
+        await redisClient.set(cacheKey, JSON.stringify(products), {
+          EX: 3600, // expires in 1 hour
+      });
+      res.status(200).json(products);
       } else {
         res.status(404).json({
           error: 'Product not found'

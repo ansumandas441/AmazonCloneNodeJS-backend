@@ -4,12 +4,7 @@ import { Request, Response } from 'express';
 
 const search = async (req: Request, res: Response) => {
     try {
-      let name: string | null = 'name' in req.query ? req.query.name as string : null;
-      if(!name){
-        return res.status(400).json({
-          message: 'Bad request'
-        })
-      }
+      let name: string = req.query.name as string;
       //regular expression for searching in the database
       const regex = new RegExp(name, 'i');
       const products = await Product.find({
