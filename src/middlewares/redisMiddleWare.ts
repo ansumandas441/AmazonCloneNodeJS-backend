@@ -65,5 +65,5 @@ const invalidateSearchCache = async (req: Request, res: Response, next: NextFunc
     next();
 }
 
-export { checkProductNameCache, checkProductIdCache, checkSearchCache, invalidateNameCache, invalidateIdCache, invalidateSearchCache };
+export default { checkProductNameCache, checkProductIdCache, checkSearchCache, invalidateNameCache, invalidateIdCache, invalidateSearchCache };
 
