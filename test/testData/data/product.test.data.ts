@@ -29,8 +29,8 @@ const productData = {
     },
     requpdateProduct: {
         "name": "test product",
-        "price": "1",
-        "description": "Thisi is test product description",
+        "price": 1,
+        "description": "This is test product description",
         "tags": ["latest1","latest2"]
     }
 }

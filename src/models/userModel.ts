@@ -17,6 +17,9 @@ const userSchema = new Schema<UserDocument>({
     timestamps:true
 });
 
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ username: 1 });
+
 const User = model<UserDocument, UserModel>("User", userSchema);
 
 export default User;

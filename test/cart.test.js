@@ -119,7 +119,7 @@ describe("POST /cart/api/add", ()=>{
         return supertest(app)
             .post("/cart/api/add")
             .set('Cookie', [`token=${token}`])
-            .send(cartData.nonExistentProductCart)
+            .send(cartData.nonExistentCartProduct)
             .expect('Content-Type',/application\/json/)
             .expect(404)
         });          

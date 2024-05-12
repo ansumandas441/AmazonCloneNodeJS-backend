@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 
 const deleteElement = async (req: Request, res: Response) => {
     try {
-      let productId: string | null = 'id' in req.query ? req.query.id as string : null;
+      let productId = req.query.id;
       const deletedProduct = await Product.findByIdAndDelete(
         productId
       );

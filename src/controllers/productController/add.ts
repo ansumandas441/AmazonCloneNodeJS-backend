@@ -3,16 +3,11 @@ import { Request, Response } from 'express';
 
 const add = async (req: Request, res: Response) => {
     try {
-      let name: string | null = 'name' in req.body ? req.body.name as string : null;
-      let price: string | null = 'price' in req.body ? req.body.price as string : null;
-      let description: string | null = 'description' in req.body ? req.body.description as string : null;
-      let tags: string[] | null = 'tags' in req.body ? req.body.tags as string[] : null;
-
-      if (!name || !price) {
-        return res.status(400).json({
-          error: "Name and price are required fields"
-        });
-      }
+      let name: string = req.body.name;
+      let price: number = parseInt(req.body.price);
+      let description: string = req.body.description;
+      let tags: string[] = req.body.tags;
+      
       const existingProduct = await Product.findOne({
         name: name,
         price: price

@@ -13,7 +13,7 @@ const add = async (req: Request, res: Response) => {
         let existingUser = req.user as MyJwtPayload;
         let email: string = existingUser.email;
         const productId = req.body.productId;
-        const quantity = Number.parseInt(req.body.quantity);
+        const quantity = req.body.quantity;
         if (!email) return res.status(401).json({
             error: "No email id provied"
         });

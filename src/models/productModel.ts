@@ -2,12 +2,12 @@ import { Schema, Document, model, Model } from 'mongoose';
 
 // Define interface for product item in the cart
 interface ProductItem {
-    productId: string;
-    name: string;
-    price: number;
-    total: number;
-    quantity: number;
-  }
+  productId: string;
+  name: string;
+  price: number;
+  total: number;
+  quantity: number;
+}
   
   // Define interface for the cart document
   interface ProductDocument extends Document {

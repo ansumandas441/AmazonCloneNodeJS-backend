@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 
 const getAll = async (req: Request, res: Response) => {
     try {
-      let page: number = 'page' in req.query ? parseInt(req.query.page as string, 10) : 1;
-      let limit: number = 'limit' in req.query ? parseInt(req.query.limit as string, 10) : 10;
-      let sortField: string = 'sortField' in req.query ? req.query.sortField as string : 'price';
-      let sortOrder: string = 'sortOrder' in req.query ? req.query.sortOrder as string : 'asc';
+      let page: number = parseInt(req.query.page as string) || 1;
+      let limit: number = parseInt(req.query.limit as string) || 10;
+      let sortField = req.query.sortField;
+      let sortOrder = req.query.sortOrder;
 
       const products = await Product.aggregate([
         {
