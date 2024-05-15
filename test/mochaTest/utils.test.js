@@ -1,8 +1,8 @@
 // After:
 let chai;
 let expect;
-const hashGenerator = require('../../utils/hashGenerator');
-const otpManager = require('../../utils/otpManager');
+import hashGenerator from '../../dist/src/utils/hashGenerator.js';
+import otpManager from '../../dist/src/utils/otpManager.js';
 
 before(async () => {
     chai = await import('chai');

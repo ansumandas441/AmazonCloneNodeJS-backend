@@ -22,6 +22,7 @@ interface Config {
   oAuthClientSecret: string;
   oAuthRefreshToken: string;
   oAuthAccessToken: string;
+  nodemailerEmail: string;
 }
 
 let config: Config = {
@@ -47,6 +48,7 @@ let config: Config = {
   oAuthClientSecret: process.env.OAUTH_CLIENT_SECRET || '',
   oAuthRefreshToken: process.env.OAUTH_REFRESH_TOKEN || '',
   oAuthAccessToken: process.env.OAUTH_ACCESS_TOKEN || '',
+  nodemailerEmail: process.env.NODE_MAILER_EMAIL || '',
 };
 
 export default config;

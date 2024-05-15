@@ -20,18 +20,13 @@ const mailManager = {
         try {
             
             let mailOptions = {
-                from: 'newtest@gmail.com',
+                from: config.nodemailerEmail,
                 to: email,
                 subject: 'Nodemailer Project',
                 text: `Please use the below OTP code: ${otp} to validate the request`
             };
-            await transporter.sendMail(mailOptions, function(err) {
-                if (err) {
-                    console.log("Error " + err);
-                } else {
-                    console.log("Email sent successfully");
-                }
-            });
+            await transporter.sendMail(mailOptions);
+            console.log("Email sent successfully");
         } catch (error){
             console.log("Error sending mail", error);
         }
