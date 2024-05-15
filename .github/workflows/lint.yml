@@ -1,30 +1,41 @@
-name : Build on PR
+name: Build on PR
 
-on: 
+on:
   pull_request:
     branches:
       - main
 
 jobs:
   build:
-    name: Performs linting, formatting on the application
     runs-on: ubuntu-latest
-
     steps:
-      -name: Checkout the repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4  
 
-      -name: Install Dependencies
-      uses: actions/setup-node@v3
-      run: npm install
+      - name: Checking the foldar structure
+        run: ls -l
 
-      -name: Build the package
-      run: npm run build
+      - name: Creating foldar
+        run: mkdir certificates
 
-      -name: Run lint
-      run: npm run lint
+      - name: Create Env File
+        run: echo ${{secrets.ENV_FILE}} > .env
 
-      # -name: run tests
-      # run: npm run test-jest
-      # run: npm run test-mocha
+      - name: Setup service account key  
+        run: echo '${{secrets.SERVICE_ACCOUNT_KEY}}' > ./certificates/service_account.json  
 
+      - name: Setup ssh key
+        run: echo '${{secrets.DB_SSH_KEY}}' > ./certificates/X509-cert-4872692784746398304.pem
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build the package
+        run: npm run build
+
+      - name: Run lint
+        run: npm run lint
+
+      # Uncomment and customize below for running tests if needed
+      # - name: Run tests
+      #   run: npm run test
