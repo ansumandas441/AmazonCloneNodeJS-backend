@@ -12,9 +12,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4  
 
+      - name: Checking the foldar structure
+        run: ls -l
+
       - name: Creating foldar
         run: mkdir certificate
-
 
       - name: Setup ssh key
         
