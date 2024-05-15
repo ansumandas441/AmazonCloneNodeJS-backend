@@ -1,13 +1,14 @@
-const mongoose = require('mongoose');
-const config = require('../../config');
+import { connect, Schema, model, disconnect } from 'mongoose';
+
+import { connection_url, sslOptions } from '../';
 
 // Connect to MongoDB
-mongoose.connect(config.connection_url, { ...config.sslOptions })
+connect(connection_url, { ...sslOptions })
   .then(() => {
     console.log('Connected to MongoDB');
 
     // Define schema
-    const productSchema = new mongoose.Schema({
+    const productSchema = new Schema({
       name: { type: String, required: true },
       price: { type: Number, required: true },
       description: { type: String },
@@ -18,7 +19,7 @@ mongoose.connect(config.connection_url, { ...config.sslOptions })
     productSchema.index({ name: 1 });
 
     // Define model
-    const Product = mongoose.model('Product', productSchema);
+    const Product = model('Product', productSchema);
 
     // Create the index
     Product.createIndexes()
@@ -30,7 +31,7 @@ mongoose.connect(config.connection_url, { ...config.sslOptions })
       })
       .finally(() => {
         // Disconnect from MongoDB
-        mongoose.disconnect();
+        disconnect();
       });
       
   })

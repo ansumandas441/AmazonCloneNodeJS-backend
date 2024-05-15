@@ -1,47 +1,48 @@
 import { randomBytes, createHash } from 'crypto';
+
 import config from '../config.js';
 
 //  function for generating hash-secret for otp
 const hashGenerator = {
-    generateNonSpecialRandomHash:()=>{
+  generateNonSpecialRandomHash:()=>{
         
-        //generating random seed
-        const seed = randomBytes(32);
+    //generating random seed
+    const seed = randomBytes(32);
 
-        //generating hash from the random seed
-        const hash = createHash('sha256').update(seed).digest();
+    //generating hash from the random seed
+    const hash = createHash('sha256').update(seed).digest();
 
-        //Encode the hash into base32 representation
-        const base32SecretKey = base32Encode(hash);
-        return base32SecretKey;
-    },
-    generateOtpHash:(value: string)=>{
-        const data = config.otpHashSalt+value
-        return createHash('sha256').update(data).digest('hex');
-    },
-    generatePasswordHash:(value: string)=>{
-        const data = config.passwordHashSalt+value
-        return createHash('sha256').update(data).digest('hex');
-    }
-}
+    //Encode the hash into base32 representation
+    const base32SecretKey = base32Encode(hash);
+    return base32SecretKey;
+  },
+  generateOtpHash:(value: string)=>{
+    const data = config.otpHashSalt+value;
+    return createHash('sha256').update(data).digest('hex');
+  },
+  generatePasswordHash:(value: string)=>{
+    const data = config.passwordHashSalt+value;
+    return createHash('sha256').update(data).digest('hex');
+  },
+};
 
 function base32Encode(buffer: Buffer) {
-    const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-    let bits = 0;
-    let value = 0;
-    let base32Str = '';
-    for (let i = 0; i < buffer.length; i++) {
-        value = (value << 8) | buffer[i];
-        bits += 8;
-        while (bits >= 5) {
-            base32Str += base32Chars[(value >>> (bits - 5)) & 31];
-            bits -= 5;
-        }
+  const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  let bits = 0;
+  let value = 0;
+  let base32Str = '';
+  for (let i = 0; i < buffer.length; i++) {
+    value = (value << 8) | buffer[i];
+    bits += 8;
+    while (bits >= 5) {
+      base32Str += base32Chars[(value >>> (bits - 5)) & 31];
+      bits -= 5;
     }
-    if (bits > 0) {
-        base32Str += base32Chars[(value << (5 - bits)) & 31];
-    }
-    return base32Str;
+  }
+  if (bits > 0) {
+    base32Str += base32Chars[(value << (5 - bits)) & 31];
+  }
+  return base32Str;
 }
 
 

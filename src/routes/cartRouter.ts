@@ -29,17 +29,19 @@
  */
 
 import { Router } from 'express';
-const router = Router();
-import cartController from '../controllers/cartController';
 
-router.post('/add', cartController.addToCart);
-router.post('/checkout', cartController.checkoutCart);
+const router = Router();
+import cartController from '../controllers/cartController/index.js';
+import cartMiddleWares from '../middlewares/cartMiddleWares.js';
+
+router.post('/add', cartMiddleWares.validateAddProduct, cartController.addToCart);
+router.post('/checkout', cartMiddleWares.validateCheckout, cartController.checkoutCart);
 // router.post('/coupon'), ;
 router.get('/total', cartController.calculatePrice);
 router.post('/save');
-router.put('/edit', cartController.updateCart);
+router.put('/edit', cartMiddleWares.validateUpdateQuantity, cartController.updateCart);
 router.get('/view', cartController.viewCart);
-router.delete('/remove', cartController.deleteFromCart);
+router.delete('/remove', cartMiddleWares.validateDeleteById, cartController.deleteFromCart);
 router.delete('/clear', cartController.deleteCart);
 
 

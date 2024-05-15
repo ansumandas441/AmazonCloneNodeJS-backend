@@ -5,7 +5,7 @@ interface Config {
   environment: string,
   sslCertPath: string;
   connection_url: string;
-  port: Number;
+  port: number;
   sslOptions: {
     ssl: boolean;
     tlsCertificateKeyFile: string;
@@ -22,13 +22,14 @@ interface Config {
   oAuthClientSecret: string;
   oAuthRefreshToken: string;
   oAuthAccessToken: string;
+  nodemailerEmail: string;
 }
 
-let config: Config = {
+const config: Config = {
   environment: process.env.NODE_ENV || 'development',
   sslCertPath: process.env.SSL_CERT_PATH || '',
   connection_url:process.env.CONNECTION_URL?.replace('{DB_NAME}', 'amazondb1') || '',
-  port:parseInt(process.env.PORT || "8888", 10),
+  port:parseInt(process.env.PORT || '8888', 10),
   sslOptions: {
     ssl: true,
     tlsCertificateKeyFile: process.env.SSL_CERT_PATH || '',
@@ -47,6 +48,7 @@ let config: Config = {
   oAuthClientSecret: process.env.OAUTH_CLIENT_SECRET || '',
   oAuthRefreshToken: process.env.OAUTH_REFRESH_TOKEN || '',
   oAuthAccessToken: process.env.OAUTH_ACCESS_TOKEN || '',
+  nodemailerEmail: process.env.NODE_MAILER_EMAIL || '',
 };
 
 export default config;

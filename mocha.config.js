@@ -1,4 +1,2 @@
-module.exports = {
-    require: 'esm'
-  };
+export const require = 'esm';
   

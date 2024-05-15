@@ -71,3 +71,14 @@
 //npm install --save-dev typescript @types/cookie-parser
 //npm install --save-dev typescript @types/jest
 
+
+//redis start
+//npm i redis
+
+//sudo apt install redis-server
+//enable-redis server->sudo systemctl enable redis-server
+//start-redis server->sudo systemctl start redis-server
+//stop-redis server->sudo systemctl stop redis-server
+
+//fore restarting->sudo systemctl restart redis-server
+
