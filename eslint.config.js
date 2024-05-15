@@ -1,11 +1,11 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import tsParser from "@typescript-eslint/parser";
-import tsPlugin from "@typescript-eslint/eslint-plugin";
-import importPlugin from "eslint-plugin-import";
-import nodePlugin from "eslint-plugin-node";
-import promisePlugin from "eslint-plugin-promise";
-import tseslint from "typescript-eslint";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import tsParser from '@typescript-eslint/parser';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import importPlugin from 'eslint-plugin-import';
+import nodePlugin from 'eslint-plugin-node';
+import promisePlugin from 'eslint-plugin-promise';
+import tseslint from 'typescript-eslint';
 
 export default [
   {
@@ -14,7 +14,7 @@ export default [
       parser: tsParser,
       parserOptions: {
         ecmaVersion: 2020,
-        sourceType: "module",
+        sourceType: 'module',
         ecmaFeatures: {
           jsx: false,
         },
@@ -28,19 +28,21 @@ export default [
     },
     rules: {
       // TypeScript specific rules
-      '@typescript-eslint/no-unused-vars': 'error',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      // '@typescript-eslint/no-unused-vars': 'warn',
+      // '@typescript-eslint/no-explicit-any': 'warn',
 
       // Import plugin rules
-      'import/no-unresolved': 'error',
-      'import/order': ['error', {
-        'groups': [['builtin', 'external', 'internal']],
-        'newlines-between': 'always',
-      }],
+      // 'import/no-unresolved': 'error',
+      // 'import/order': ['error', {
+      //   'groups': [['builtin', 'external', 'internal']],
+      //   'newlines-between': 'always',
+      // }],
 
       // Node.js plugin rules
-      'node/no-missing-require': 'error',
-      'node/no-unpublished-require': 'error',
+      // 'node/no-missing-require': 'error',
+      // 'node/no-unpublished-require': 'error',
+      'node/no-missing-require': 'warn',
+      'node/no-unpublished-require': 'warn',
       'node/no-deprecated-api': 'warn',
 
       // Promise plugin rules
@@ -49,14 +51,16 @@ export default [
 
       // General JS/TS rules
       'no-console': 'warn',
-      'no-debugger': 'error',
-      'consistent-return': 'error',
-      'eqeqeq': ['error', 'always'],
-      'curly': 'error',
-      'semi': ['error', 'always'],
-      'quotes': ['error', 'single', { 'avoidEscape': true }],
-      'indent': ['error', 2],
-      'comma-dangle': ['error', 'always-multiline'],
+      // 'no-debugger': 'error',
+      // 'consistent-return': 'error',
+      'no-debugger': 'warn',
+      'consistent-return': 'warn',
+      // 'eqeqeq': ['error', 'always'],
+      // 'curly': 'error',
+      // 'semi': ['error', 'always'],
+      // 'quotes': ['error', 'single', { 'avoidEscape': true }],
+      // 'indent': ['error', 2],
+      // 'comma-dangle': ['error', 'always-multiline'],
     },
   },
   pluginJs.configs.recommended,

@@ -1,8 +1,8 @@
 import { getAll, getById, getByName } from './get.js';
-import add from "./add.js";
-import edit from "./edit.js";
-import deleteElement from "./delete.js";
-import search from "./search.js";
+import add from './add.js';
+import edit from './edit.js';
+import deleteElement from './delete.js';
+import search from './search.js';
 
 const productController = {
   getAllProducts: getAll,
@@ -12,6 +12,6 @@ const productController = {
   editPrice: edit,
   deleteProduct: deleteElement,
   searchProduct: search,
-}
+};
 
 export default productController;

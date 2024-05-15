@@ -1,4 +1,5 @@
 import { connect, Schema, model, disconnect } from 'mongoose';
+
 import config from '../config.js';
 
 // Connect to MongoDB

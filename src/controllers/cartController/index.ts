@@ -6,26 +6,26 @@ import price from './price.js';
 import checkout from './checkout.js';
 
 const cartController = {
-    addToCart: add,
-    updateCart: update,
-    deleteFromCart: deleteElement,
-    deleteCart: deleteAllCart,
-    viewCart: view,
-    calculatePrice: price,
-    checkoutCart: checkout
+  addToCart: add,
+  updateCart: update,
+  deleteFromCart: deleteElement,
+  deleteCart: deleteAllCart,
+  viewCart: view,
+  calculatePrice: price,
+  checkoutCart: checkout,
 
-    // const useCoupon = async (re,res) => {
-    //     try {
-    //         const couponCode = req.body.couponCode;
+  // const useCoupon = async (re,res) => {
+  //     try {
+  //         const couponCode = req.body.couponCode;
 
-    //         const totalPrice = await calculatePrice();
+  //         const totalPrice = await calculatePrice();
 
-    //     } catch (error) {
+  //     } catch (error) {
 
-    //     }
-    // }
+  //     }
+  // }
 
     
-}
+};
 
 export default cartController;

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 const router = Router();
 import ProductController from '../controllers/productController/index.js';
 import productMiddleWares from '../middlewares/productMiddleWares.js';
@@ -7,26 +8,26 @@ import redisMiddleWare from '../middlewares/redisMiddleWare.js';
 // Middleware grouping for product ID operations
 const productIdMiddlewares = [
   productMiddleWares.validateProductId,
-  redisMiddleWare.checkProductIdCache
+  redisMiddleWare.checkProductIdCache,
 ];
 
 // Middleware grouping for product name operations
 const productNameMiddlewares = [
   productMiddleWares.validateProductName,
-  redisMiddleWare.checkProductNameCache
+  redisMiddleWare.checkProductNameCache,
 ];
 
 // Middleware grouping for invalidating caches
 const invalidateNameCaches = [
-    redisMiddleWare.invalidateNameCache,
-    redisMiddleWare.invalidateSearchCache
-  ];
+  redisMiddleWare.invalidateNameCache,
+  redisMiddleWare.invalidateSearchCache,
+];
 
 // Middleware grouping for invalidating caches
 const invalidateAllCaches = [
   redisMiddleWare.invalidateIdCache,
   redisMiddleWare.invalidateNameCache,
-  redisMiddleWare.invalidateSearchCache
+  redisMiddleWare.invalidateSearchCache,
 ];
 
 //Route for getting all the products

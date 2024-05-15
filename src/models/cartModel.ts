@@ -21,16 +21,16 @@ interface CartModel extends Model<CartDocument> {}
 
 // Define the schema for the cart
 const cartSchema = new Schema<CartDocument>({
-    email: { type: String, required: true },
-    products: [{
-      productId: { type: String, required: true },
-      name: { type: String, required: true },
-      price: { type: Number, required: true},
-      total: {type: Number, default: 0},
-      quantity: { type: Number, default: 1 },
+  email: { type: String, required: true },
+  products: [{
+    productId: { type: String, required: true },
+    name: { type: String, required: true },
+    price: { type: Number, required: true},
+    total: {type: Number, default: 0},
+    quantity: { type: Number, default: 1 },
   }],
-    subTotalPrice: { type: Number, default: 0},
-  });
+  subTotalPrice: { type: Number, default: 0},
+});
   
 const Cart: CartModel = model<CartDocument, CartModel>('Cart', cartSchema);
 

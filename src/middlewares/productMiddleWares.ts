@@ -25,7 +25,7 @@ const productNameSchema = z.object({
 });
 
 // Middleware functions
-const validateProduct = (req: Request, res: Response, next: NextFunction) => {
+const validateProduct = (req: Request, res: Response, next: NextFunction): any => {
   try {
     productSchema.parse({
       name: req.body.name,
@@ -42,7 +42,7 @@ const validateProduct = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const validateProductId = (req: Request, res: Response, next: NextFunction) => {
+const validateProductId = (req: Request, res: Response, next: NextFunction): any => {
   try {
     productIdSchema.parse({
       id: req.query.id,
@@ -56,7 +56,7 @@ const validateProductId = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const validatePageDetails = (req: Request, res: Response, next: NextFunction) => {
+const validatePageDetails = (req: Request, res: Response, next: NextFunction): any => {
   try {
     pageDetailsSchema.parse({
       page: req.query.page,
@@ -73,7 +73,7 @@ const validatePageDetails = (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-const validateProductName = (req: Request, res: Response, next: NextFunction) => {
+const validateProductName = (req: Request, res: Response, next: NextFunction): any => {
   try {
     productNameSchema.parse({
       name: req.query.name,

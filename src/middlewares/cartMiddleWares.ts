@@ -4,8 +4,8 @@ import { z } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 
 const addProductSchema = z.object({
-    productId: z.string(),
-    quantity: z.number().int().nonnegative(),
+  productId: z.string(),
+  quantity: z.number().int().nonnegative(),
 });
 
 // Zod schema for checkout
@@ -15,22 +15,22 @@ const checkoutSchema = z.object({
 
 // Zod schema for delete by id
 const deleteByIdSchema = z.object({
-    productId: z.string(),
+  productId: z.string(),
 });
 
 // Zod schema for update quantity
 const updateQuantitySchema = z.object({
-    productId: z.string(),
-    quantity: z.number().int(),
-  });
+  productId: z.string(),
+  quantity: z.number().int(),
+});
 
 // Middleware for adding product
 const validateAddProduct = (req: Request, res: Response, next: NextFunction) => {
-    const result = addProductSchema.safeParse(req.body);
-    if (!result.success) {
-      return res.status(400).json(result.error);
-    }
-    next();
+  const result = addProductSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json(result.error);
+  }
+  next();
 };
 
 // Middleware for checkout
