@@ -12,8 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4  
 
+      - name: Creating foldar
+        run: mkdir certificate
+
+
       - name: Setup ssh key
-        run: echo "${{secrets.DB_SSH_KEY}}" > ./certificates/X509-cert-4872692784746398304.pem
+        
+        run: echo "${{secrets.DB_SSH_KEY}}" > certificates/X509-cert-4872692784746398304.pem
 
       - name: Setup service account key  
         run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > certificates/service_account.json
