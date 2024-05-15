@@ -16,7 +16,7 @@ jobs:
         run: ls -l
 
       - name: Creating foldar
-        run: mkdir certificate
+        run: mkdir certificates
 
       - name: Checking the foldar structure 2
         run: ls -l  
