@@ -1,6 +1,6 @@
-name : Build on PR
+name: Build on PR
 
-on: 
+on:
   pull_request:
     branches:
       - main
@@ -11,20 +11,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      -name: Checkout the repository
-      uses: actions/checkout@v3
+      - name: Checkout the repository
+        uses: actions/checkout@v3
 
-      -name: Install Dependencies
-      uses: actions/setup-node@v3
-      run: npm install
+      - name: Install Dependencies
+        uses: actions/setup-node@v3
+        run: npm install
 
-      -name: Build the package
-      run: npm run build
+      - name: Build the package
+        run: npm run build
 
-      -name: Run lint
-      run: npm run lint
+      - name: Run lint
+        run: npm run lint
 
-      # -name: run tests
-      # run: npm run test-jest
-      # run: npm run test-mocha
-
+      # Uncomment and customize below for running tests if needed
+      # - name: Run tests
+      #   run: npm run test
