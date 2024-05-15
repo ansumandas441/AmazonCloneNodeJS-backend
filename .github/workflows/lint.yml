@@ -18,8 +18,10 @@ jobs:
       - name: Creating foldar
         run: mkdir certificate
 
+      - name: Checking the foldar structure 2
+        run: ls -l  
+
       - name: Setup ssh key
-        
         run: echo "${{secrets.DB_SSH_KEY}}" > certificates/X509-cert-4872692784746398304.pem
 
       - name: Setup service account key  
