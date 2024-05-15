@@ -14,8 +14,10 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
 
+      - name: Configuring node version
+        uses: actions/setup-node@v3  
+
       - name: Install Dependencies
-        uses: actions/setup-node@v3
         run: npm install
 
       - name: Build the package
