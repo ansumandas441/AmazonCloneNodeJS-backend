@@ -24,6 +24,9 @@ jobs:
       - name: Create Env File
         run: echo "${{secrets.ENV_FILE}}" > .env
 
+      - name: List certificates directory
+        run: ls -l certificates
+        
       - name: Setup test
         run: 'echo "test" > ./certificates/service_account.json'    
 
