@@ -19,16 +19,16 @@ jobs:
         run: mkdir certificates
 
       - name: Create Env File
-        run: echo "${{secrets.ENV_FILE}}" > .env
+        run: echo ${{secrets.ENV_FILE}} > .env
 
       - name: List certificates directory
         run: ls -l certificates
         
       - name: Setup service account key  
-        run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > ./certificates/service_account.json  
+        run: echo ${{secrets.SERVICE_ACCOUNT_KEY}} > ./certificates/service_account.json  
 
       - name: Setup ssh key
-        run: echo "${{secrets.DB_SSH_KEY}}" > ./certificates/X509-cert-4872692784746398304.pem
+        run: echo ${{secrets.DB_SSH_KEY}} > ./certificates/X509-cert-4872692784746398304.pem
 
       - name: Install Dependencies
         run: npm install
