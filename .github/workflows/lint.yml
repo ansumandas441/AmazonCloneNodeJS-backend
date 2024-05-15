@@ -25,7 +25,7 @@ jobs:
         run: echo "${{secrets.ENV_FILE}}" > .env
 
       - name: Setup test
-        run: echo "test" > ./certificates/service_account.json    
+        run: 'echo "test" > ./certificates/service_account.json'    
 
       - name: Setup service account key  
         run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > ./certificates/service_account.json  
