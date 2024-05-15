@@ -10,31 +10,31 @@ jobs:
     name: Performs linting, formatting on the application
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
+  steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
 
-      - name: Configuring node version
-        uses: actions/setup-node@v3  
+    - name: Configuring node version
+      uses: actions/setup-node@v3  
 
-      - name: Setup ssh 
-        run: echo "${{ secrets.DB_SSH_KEY }}" > certificates/X509-cert-4872692784746398304.pem
+    - name: Setup ssh 
+      run: echo "${{ secrets.DB_SSH_KEY }}" > certificates/X509-cert-4872692784746398304.pem
 
-      -name: Setup service account key  
-        run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > certificates/service_account.json
+    -name: Setup service account key  
+      run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > certificates/service_account.json
 
-      - name: Create Env File
-        run: 'echo "${{secrets.ENV_FILE}}" > .env'
+    - name: Create Env File
+      run: 'echo "${{secrets.ENV_FILE}}" > .env'
 
-      - name: Install Dependencies
-        run: npm install
+    - name: Install Dependencies
+      run: npm install
 
-      - name: Build the package
-        run: npm run build
+    - name: Build the package
+      run: npm run build
 
-      - name: Run lint
-        run: npm run lint
+    - name: Run lint
+      run: npm run lint
 
-      # Uncomment and customize below for running tests if needed
-      # - name: Run tests
-      #   run: npm run test
+    # Uncomment and customize below for running tests if needed
+    # - name: Run tests
+    #   run: npm run test
