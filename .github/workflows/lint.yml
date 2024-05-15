@@ -19,7 +19,7 @@ jobs:
         run: echo "${{secrets.SERVICE_ACCOUNT_KEY}}" > certificates/service_account.json
 
       - name: Create Env File
-        run: 'echo "${{secrets.ENV_FILE}}" > .env
+        run: echo "${{secrets.ENV_FILE}}" > .env
 
       - name: Install Dependencies
         run: npm install
