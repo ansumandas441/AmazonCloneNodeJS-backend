@@ -5,7 +5,7 @@
     <h1 align="center">AMAZONCLONENODEJS-BACKEND</h1>
 </p>
 <p align="center">
-    <em>Node, Mongo, Connect.This slogan captures the essence of the backends use of Node.js, MongoDB, and connections to external services to facilitate commerce operations. It's catchy, memorable, and doesn't include the project name.</em>
+    <em>Node, Mongo, Connect. This slogan captures the essence of the backend use of Node.js, MongoDB, and connections to external services to facilitate commerce operations. It's catchy, memorable, and doesn't include the project name.</em>
 </p>
 <p align="center">
 	<img src="https://img.shields.io/github/license/ansumandas441/AmazonCloneNodeJS-backend?style=default&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
